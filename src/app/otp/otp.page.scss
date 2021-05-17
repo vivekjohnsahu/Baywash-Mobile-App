@@ -1,0 +1,109 @@
+ion-toolbar{
+    --background: white!important;
+}
+ion-back-button{
+    color: #22bddf!important;
+}
+ion-col{
+    padding: 20px 15px 30px 15px;
+}
+h1.heading_text{
+    text-align: center;
+    margin-top: 30px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+.form_container > ion-label{
+    padding-left: 13%;
+}
+// .form_container{
+//     margin-bottom: 0rem!important
+// }
+.form_container ion-input{
+    width: 87%;
+    margin: 0 0 0 auto;
+    border-bottom: 1px solid #ccc;
+    font-size:12px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+}
+.signin_text{
+   text-align: center;
+}
+.signin_text p:nth-child(1){
+    margin-top: 35px!important;
+    font-weight: 600;
+}
+.signin_text p:nth-child(1){
+    font-size: 14px;
+}
+.signin_text p:nth-child(3){
+    font-size: 14px;
+}
+p{
+    margin-bottom: 0rem!important;
+}
+.error_cls{
+    color: red;
+    font-size: 12px;
+    padding-top: 10px;
+    text-align: center;
+}
+.resend{
+    font-size: 12px;
+    font-weight: 600;
+    padding-top: 5%;
+    color: #fd8900;
+}
+#partitioned {
+    letter-spacing: 40px;
+    border: 0;
+    background-image: linear-gradient(to left, #22bddf 70%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 50px 1px;
+    background-repeat: repeat-x;
+    background-position-x: 35px;
+    width: 220px;
+    min-width:220px;
+    font-size: 18px;
+    padding-left: 11px !important;
+}
+#divInner{
+    left: 0;
+    position: sticky;
+} 
+#divOuter{
+    width: 184px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+} 
+.receive{
+    text-align: center;
+}
+.receive div:nth-child(2){
+    font-size: 12px;
+    color: green;
+}
+.sign_in_button{
+    text-align:center;
+}
+.sign_in_button > button{
+    font-weight: 300;
+    width: 90%;
+    margin: 15px 0;
+    padding:15px;
+    color:#fff;
+    border-radius: 30px;
+    background-image: linear-gradient( 90deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    background-image: -moz-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    background-image: -ms-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    box-shadow: 0px 9px 18.27px 2.73px rgba(0, 0, 0, 0.19);
+}
+.sign_in_button > button:focus{
+    outline:none;
+}
+.sign_in_button > button[disabled]{
+    background-image: linear-gradient(90deg, rgba(49, 203, 237, 0.48) 0%, rgba(57, 180, 73, 0.48) 100%);
+}

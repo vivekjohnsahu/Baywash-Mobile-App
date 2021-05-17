@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+	<ion-buttons slot="start">
+    <span style="text-align:center;width:48px;" (click)="dismiss()"><img style="width:16px;" src="assets/images/icon/back-button.png"></span>
+	</ion-buttons>
+	<ion-title>
+      Schedule Management Filters
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<form novalidate (ngSubmit)="filterData()" class="loginFormMargin" [formGroup]="filterForm">
+					<ion-item size="12" no-padding class="col form_container" >
+						<ion-label position="floating">Customer Name</ion-label>
+						<ion-input [(ngModel)]="filterValue.customer" formControlName="customer" ></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Worker Name</ion-label>
+						<ion-input [(ngModel)]="filterValue.worker" formControlName="worker" (keypress)="workerFnc()"></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating">Service</ion-label>
+						<ion-input  formControlName="service" [(ngModel)]="filterValue.service"></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating">Status</ion-label>
+							<ion-select [interfaceOptions]="customActionSheetOptions" interface="action" formControlName="status" [(ngModel)]="filterValue.status">
+								<ion-select-option value="">All</ion-select-option>
+								<ion-select-option value="0">Pending</ion-select-option>
+								<ion-select-option value="1">Done</ion-select-option>
+								<ion-select-option value="2">Not Done</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating"style="color:#000;">From Date</ion-label>
+						<ion-input style="text-transform: uppercase;" formControlName="form_date" value="" clearInput [(ngModel)]="filterValue.form_date" type="date" ></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating"style="color:#000;">To Date</ion-label>
+						<ion-input style="text-transform: uppercase;" formControlName="to_date" value="" clearInput [(ngModel)]="filterValue.to_date" type="date" ></ion-input>
+					</ion-item>
+					<div class="sign_in_button">
+						<button shape="round" type="submit" [disabled]="filterForm.invalid">Continue</button>
+						<button shape="round" type="button" (click)="reset()">Reset</button>
+					</div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>
+

@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+	<ion-buttons slot="start">
+    	<span style="text-align:center;width:48px;" (click)="dismiss()"><img style="width:16px;" src="assets/images/icon/back-button.png"></span>
+	</ion-buttons>
+	<ion-title>
+		Ticket Filters
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<form novalidate class="loginFormMargin">
+					<ion-item size="12" no-padding class="col form_container" >
+						<ion-label position="floating">Customer Name</ion-label>
+						<ion-input [(ngModel)]="customer" name="customer"></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Worker Name</ion-label>
+						<ion-input [(ngModel)]="worker" name="worker"></ion-input>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Priority</ion-label>
+						<ion-select (ionCancel)="onCancel1()" [interfaceOptions]="customActionSheetOptions" [(ngModel)]="select_priority" interface="action" name="select_priority" (ionChange)="priorityGet($event.target.value)">
+							<ion-select-option value="1">Low</ion-select-option>
+							<ion-select-option value="2">Medium</ion-select-option>
+							<ion-select-option value="3">High</ion-select-option>
+							<ion-select-option value="4">Critical</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Type</ion-label>
+						<ion-select (ionCancel)="onCancel2()" name="tickett_type" [(ngModel)]="tickett_type" [interfaceOptions]="customActionSheetOptions" interface="action" (ionChange)="typeGet($event.target.value)">
+							<ion-select-option value="1">External</ion-select-option>
+							<ion-select-option value="2">Internal</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Status</ion-label>
+						<ion-select [interfaceOptions]="customActionSheetOptions" name="statusSelect" [(ngModel)]="status"  (ionChange)="statusfilter($event.target.value)" (ionCancel)="onCancel()" interface="action">
+							<ion-select-option value="1">Closed</ion-select-option>
+							<ion-select-option value="2">Open</ion-select-option>
+							<ion-select-option value="3">In Progress</ion-select-option>
+							<ion-select-option value="4">Resolved</ion-select-option>
+							<ion-select-option value="5">On Hold</ion-select-option>
+						</ion-select>					
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating"style="color:#000;">From Date</ion-label>
+						<ion-input style="text-transform: uppercase;" name="form_date" value="" clearInput [(ngModel)]="form_date" type="date" ></ion-input>					
+					</ion-item>
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating"style="color:#000;">To Date</ion-label>
+						<ion-input style="text-transform: uppercase;" name="to_date" value="" clearInput [(ngModel)]="to_date" type="date" ></ion-input>					
+					</ion-item>
+					<div class="sign_in_button">
+						<button shape="round" type="submit" (click)="filterData()">Continue</button>
+						<button shape="round" type="button" (click)="reset()">Reset</button>
+					</div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

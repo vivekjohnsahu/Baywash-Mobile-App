@@ -1,0 +1,82 @@
+ion-toolbar{
+  --background: #22bddf;
+  }
+  ion-toolbar{
+  
+  }
+  .main div:nth-child(1){
+    display: inline-block;
+    width: 70px;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .main div:nth-child(1) img{
+    height: 70px;
+    width: 70px;
+    margin: 0 auto;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .main div:nth-child(2){
+    display: inline-block;
+    width: calc(100% - 80px);
+    vertical-align: middle;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+  .close_btn{
+      font-size: 38px;
+      color: white;
+      padding: 0 5px;
+  }
+  .min{
+    font-size: 14px;
+  }
+  ion-title {
+      color: white;
+      letter-spacing: 1px;
+      text-align: center;
+      text-transform: capitalize;
+      font-weight: 500;
+      font-size: 20px;
+  }
+  .notifictaion_div{
+    padding: 0px 20px 0px 20px
+  }
+  .notifictaion{
+    width: calc(100% - 30px);
+    display: inline-block;
+    // padding-left: 10px;
+  }
+  .notifictaion > ion-text.head > h3{
+    margin-top: 0px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #1a5c8c;
+    letter-spacing: 1px;
+  }
+  .notifictaion > ion-text:nth-child(2) > p{
+    font-size: 12px;
+    color: rgba(31, 31, 31, 0.71);
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .notifictaion > ion-text:nth-child(3) > p{
+    color: #c7c3c3;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  .main{
+    padding: 20px 0px 20px 0px;
+    border-bottom: 1px solid rgba(216, 216, 216, 0.5);
+  }
+  p{
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  .main span{
+    font-size: 13px;
+  }

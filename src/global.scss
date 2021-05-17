@@ -1,0 +1,160 @@
+// http://ionicframework.com/docs/theming/
+@import '~@ionic/angular/css/core.css';
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
+@import '~@ionic/angular/css/display.css';
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+
+
+@font-face {
+    font-family: proxima-nova-alt-regular;
+    src: url('assets/fonts/ProximaNovaAltRegular.otf');
+  }
+  
+  @font-face {
+    font-family: Proxima-Nova-Thin;
+    src: url('assets/fonts/ProximaNovaThin.otf');
+  }
+  
+  @font-face {
+    font-family: Proxima-Nova-Bold;
+    src: url('assets/fonts/ProximaNovaBold.otf');
+  }
+  
+  body {
+    font-family: Proxima-Nova-alt-Regular;
+  }
+
+$toggle-ios-handle-height:40px;
+ion-back-button{
+    --color: #fff!important;
+}
+.error_cls{
+    font-size: 13px;
+    padding-left: 20px;
+    color: red;
+}
+// .back_btn{
+//   padding:10px 20px;
+// }
+.back_btn > span{
+  background: #22bddf;
+    border-radius: 20px;
+    display: inline-flex;
+    width: 40px;
+    align-items: center;
+    position: relative;
+    left: -8px;
+    outline: none;
+    height: 40px;
+    text-align: center;
+}
+.back_btn > span > img{
+  width: 16px;
+  margin: 0 auto;
+}
+#cart-badge{
+  padding: 4px 3px!important;
+}
+input{
+  text-transform: capitalize;
+}
+ion-input{
+  text-transform: capitalize;
+}
+ion-select{
+  text-transform: capitalize;
+}
+
+.itemNative{
+  border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.i_font{
+  width: 16px;
+    font-size: 19px;
+}
+
+ion-alert.custom-ios-alert{
+  ion-backdrop{
+    opacity:0.5;
+  }
+  .alert-wrapper{
+    border-radius:13px !important;
+    // --max-width: 300px;
+    // --width: 100%;
+    .alert-head{
+      padding-top: 12px;
+      padding-bottom: 7px;
+    }
+    .alert-message{
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    .alert-button-group{
+      padding: 0;
+
+      button.alert-button{
+        width: 50%;
+        margin: 0;
+        text-align: center;
+        
+        &:first-child{
+          border-right: 1px solid #ccc;
+        }
+        &:last-child{
+          font-weight: 400;
+        }
+        span{
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+.my-class{
+  .alert-wrapper{
+      height:auto;
+
+      .alert-checkbox-group{
+          max-height: initial;
+      }
+  }
+}
+
+.select_box_width{
+  --max-width: 300px!important;
+  --width: 300px!important;
+}
+
+
+.select_box_width{
+  .alert-radio-icon.sc-ion-alert-md{
+     left: 12px;
+  }
+  .alert-radio-label.sc-ion-alert-md{
+     padding-inline-start: 20px;
+     font-size: 13px;
+  }
+ }
+
+.back_btn{
+  position: relative;
+  padding-left: 10px;
+}
+
+.item-has-focus{
+  .label-floating.sc-ion-label-md-h{
+    color:#000;
+  }
+} 
+.item-has-focus.ion-focused.ion-touched.ion-invalid{
+  --highlight-background: #000;
+}

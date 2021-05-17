@@ -1,0 +1,30 @@
+<ion-app>
+  <ion-split-pane>
+    <ion-menu>
+      <ion-content class="background_sidemenu">
+        <ion-list no-padding>
+          <ion-menu-toggle auto-hide="false">  
+              <div  class="profile_icon">
+                <span>Welcome</span>
+                <span class="user_nme" *ngIf="hideshow">{{user_name}}</span>
+              </div> 
+              <div>
+                  <ion-item class="itemNative" no-padding (click)="homePage()">
+                    <ion-label><span><img src="assets/images/sidemenu/home.png"></span>Home </ion-label>
+                    <i class="fa fa-angle-right i_font" aria-hidden="true"></i>
+                  </ion-item>
+                  <ion-item class="itemNative" no-padding (click)="profile()">
+                    <ion-label><span><img src="assets/images/sidemenu/task.png"></span>My Profile </ion-label>
+                    <i class="fa fa-angle-right i_font" aria-hidden="true"></i>
+                  </ion-item>
+                  <ion-item class="itemNative" style="border-bottom: none;" no-padding (click)="log_out()">
+                    <ion-label><span><img src="assets/images/sidemenu/logout.png"></span><span style="color: red;">Logout</span></ion-label>
+                  </ion-item>
+              </div>
+            </ion-menu-toggle>
+          </ion-list>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

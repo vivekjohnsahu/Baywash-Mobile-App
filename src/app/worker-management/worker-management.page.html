@@ -1,0 +1,169 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="back()">
+		<ion-back-button></ion-back-button>
+	  </ion-buttons>
+    <ion-title>
+	  Mark Attendence
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end" class="search_icon_container">
+		<a class="search_icon" (click)="presentModal()"><img src="assets/images/sidemenu/icon/notification.png"></a>
+      <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+      	<ion-row>
+            <ion-col size="12">
+				<div class="div_date" >
+					<div class="strt_date" (click)="startDate()">
+						<div class="date_head">
+							<span>Start Date</span>
+						</div>
+						<div class="date_clndr g_brdr">
+							<span><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
+							<span><span class="weeks_span">{{start_date | date: "EEE"}}</span> {{start_date | date: "dd"}} {{start_date | date: "LLL"}} {{start_date | date: "yy"}}</span>
+						</div>
+					</div>
+					<div class="strt_date" (click)="endDate()">
+						<div class="date_head">
+							<span>End Date</span>
+						</div>
+						<div class="date_clndr">
+							<span><i class="fa fa-calendar-o" aria-hidden="true"></i></span>
+							<span><span class="weeks_span">{{end_date | date: "EEE"}}</span> {{end_date | date: "dd"}} {{end_date | date: "LLL"}} {{end_date | date: "yy"}}</span>
+						</div>
+					</div>
+					<div class="apply_btn" (click)="apply()">
+						<a>Apply</a>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col [hidden]="worker_details_hide==2" class="main_container_text" [ngClass]="{'mini_load': workerShow?.working_hours < 200,'over_load': workerShow?.working_hours > 200 }" size="12" *ngFor="let workerShow of worker_listing">
+				<div class="left_line">
+					<div class="new_add">	
+						<!-- <span style="float: right;" ><input type="checkbox" (click)="workerShowSelect(i,workerShow?.worker_id)"></span> -->
+					</div>
+					<div class="text_container">
+						<div class="wrk_name">	
+							<strong>Worker : </strong><span>{{workerShow.workerName}}</span>
+						</div>
+						<div class="wrk_name">
+							<strong>Mobile No. : </strong><span>{{workerShow.phone_no}}</span>
+						</div>
+						<div class="wrk_name">
+							<strong>Working Date : </strong><span>{{workerShow.job_date | date: "dd-MM-yyyy"}}</span>
+						</div>
+						<div class="wrk_name" style="margin-bottom: 8px;" *ngIf="workerShow?.job_date <= current_Date">
+							<strong>Present : </strong>
+							<div class="checkbox_lable chk" style="width:60%;padding-left: 15px;">
+								<span class="radio3">
+									<input style="vertical-align: middle;" class="remove_yes_no {{workerShow?.common_job_id}}_1" [disabled]='workerShow?.time_in!=null' [ngClass]="{'open_box': workerShow?.time_in!=null}" [checked]="workerShow?.time_in!=null || workerShow?.time_in!='null'" (click)="PresentApsent('Yes', workerShow?.common_job_id,workerShow?.time_out,workerShow?.time_in)" name={{workerShow?.common_job_id}} type="radio" id="click_{{workerShow?.common_job_id}}" value="Yes">
+									<label style="margin-left: 4px;margin-bottom: 0px;vertical-align: middle;" for="Yes">Yes</label>
+								</span>
+								<span class="radio4">	
+									<input style="vertical-align: middle;" class="remove_yes_no {{workerShow?.common_job_id}}_2" [disabled]='workerShow?.time_in!=null' [checked]="workerShow?.time_in==null || workerShow?.time_in=='null'" (click)="PresentApsent('No', workerShow?.common_job_id,workerShow?.time_out,workerShow?.time_in)" name={{workerShow?.common_job_id}} type="radio" id="click_{{workerShow?.common_job_id}}" value="No">
+									<label style="margin-left: 4px;margin-bottom: 0px;vertical-align: middle;" for="No">No</label>
+								</span>
+							</div>	
+						</div>
+						<div>
+							<div class="checkbox_lable remove_input_box" id="icon_right_true_{{workerShow?.common_job_id}}" [ngClass]="{'addTop open_box': workerShow?.time_in!=null, 'removeTop': workerShow?.time_in==null}">
+								<div class="time" >
+									<span>
+										<label style="font-size: 13px;" for="">Time in:</label>
+									</span>
+									<span class="radio1">
+										<!-- <ion-datetime placeholder="00:00" (ionChange)="setIntime($event.target.value)" style="font-size: 13px;" [ngClass]="{'dis_color': workerShow?.time_in!=null}"  name='time_in' value={{workerShow?.time_in}} [disabled]="workerShow?.time_in!=null" displayFormat="HH:mm"></ion-datetime> -->
+										<input type="text" class="input_class" placeholder="00:00" (input)="setIntime($event.target.value)" [ngClass]="{'dis_color': workerShow?.time_in!=null}" style="font-size: 13px;"  name='time_in' value={{workerShow?.time_in}} [disabled]="workerShow?.time_in!=null">
+									</span>
+									<span class="icon" *ngIf="workerShow?.time_in!=null">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</span>
+									<span class="icon" *ngIf="time_in!=null && workerShow?.time_in==null" (click)="timeIn(workerShow?.worker_id,workerShow?.job_date)">
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</span>
+								</div>
+								<div class="time" *ngIf="workerShow?.job_date != current_Date || (workerShow?.job_date == current_Date && workerShow?.time_out!=null)">
+									<span>
+										<label style="font-size: 13px;" for="">Time Out:</label>
+									</span>
+									<span class="radio2">	
+										<!-- <ion-datetime placeholder="00:00" (ionChange)="setOuttime($event.target.value)" style="font-size: 13px;" name='time_out' [ngClass]="{'dis_color': workerShow?.time_in!=null}" value={{workerShow?.time_out}} [disabled]="workerShow?.time_out!=null" displayFormat="HH:mm"></ion-datetime> -->
+										<input type="text" class="input_class" placeholder="00:00" (input)="setOuttime($event.target.value)" style="font-size: 13px;" name='time_out' [ngClass]="{'dis_color': workerShow?.time_in!=null}" value={{workerShow?.time_out}} [disabled]="workerShow?.time_out!=null">
+									</span>
+									<span class="icon" *ngIf="workerShow?.time_out!=null">	
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</span>
+									<span class="icon" *ngIf="time_out!=null && workerShow?.time_out==null" (click)="timeOut(workerShow?.worker_id,workerShow?.job_date)">	
+										<i class="fa fa-check" aria-hidden="true"></i>
+									</span>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<!-- <div class="btn_container" *ngIf="workerShow?.job_date == current_Date && workerShow?.time_out==null && workerShow?.time_in!=null"> -->
+					<div class="btn_container" *ngIf="workerShow?.job_date == current_Date && workerShow?.time_in!=null">
+						<div class="btn_">
+							<button (click)="Update(workerShow.worker_id,workerShow?.time_in,workerShow?.job_date,workerShow?.attendence_id,workerShow?.time_out)">Update</button>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col class="no_data" [hidden]="worker_details_hide==1 || worker_details_hide==0" size="12">
+				<p>Worker not Found</p>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+		<ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+	<div class="custom-modal_main" *ngIf="date_clndr">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>Start Date</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<ion-calendar [(ngModel)]="dateRange" [options]="optionsRange" [type]="type" [format]="'YYYY-MM-DD'"></ion-calendar>
+				<button class="submit" type="submit" (click)="dateFilter(dateRange._d)">Submit</button>
+			</div>
+		</div>
+	</div>
+	<div class="custom-modal_main" *ngIf="date_clndr2">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>End Date</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<ion-calendar [(ngModel)]="dateRange2" [options]="optionsRange2" [type]="type" [format]="'YYYY-MM-DD'"></ion-calendar>
+				<button class="submit" type="submit" (click)="dateFilter2(dateRange2._d)">Submit</button>
+			</div>
+		</div>
+	</div>
+	<div class="custom-modal_main" *ngIf="updatePopup">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>Mark Attendence</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<form action="">
+					<ion-item>
+						<!-- <ion-datetime value={{time_in}}  placeholder="Time In" displayFormat="HH:mm" pickerFormat="HH:mm" name="time_in_popup" (ionChange)="timeInPopup($event.target.value)"></ion-datetime> -->
+						<input type="text" value={{time_in}} class="border_hide"  placeholder="Time In" pickerFormat="HH:mm" name="time_in_popup" (input)="timeInPopup($event.target.value)">
+					</ion-item>
+					<ion-item>
+						<!-- <ion-datetime value={{time_out}} placeholder="Time Out" displayFormat="HH:mm" pickerFormat="HH:mm" name="time_out_popup" (ionChange)="timeOutPopup($event.target.value)"></ion-datetime> -->
+						<input type="text" value={{time_out}} class="border_hide" placeholder="Time Out" pickerFormat="HH:mm" name="time_out_popup" (input)="timeOutPopup($event.target.value)">
+					</ion-item>
+					<button class="submit" type="submit" (click)="submit()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</ion-content>

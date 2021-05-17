@@ -1,0 +1,176 @@
+// App Styles
+// ----------------------------------------------------------------------------
+// Put style rules here that you want to apply to the entire application. These 
+// styles are for the entire app and not just one component. Additionally, this 
+// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// and used throughout the application.
+
+
+@font-face {
+    font-family: proxima-nova-alt-regular;
+    src: url('../assets/fonts/ProximaNovaAltRegular.otf');
+  }
+  
+  @font-face {
+    font-family: Proxima-Nova-Thin;
+    src: url('../assets/fonts/ProximaNovaThin.otf');
+  }
+  
+  @font-face {
+    font-family: Proxima-Nova-Bold;
+    src: url('../assets/fonts/ProximaNovaBold.otf');
+  }
+  
+  body {
+    font-family: Proxima-Nova-alt-Regular;
+  }
+  
+  
+  
+  .background_sidemenu {
+
+    background-size: 100% 100%;
+    --background: transparent;
+  }
+  
+  ion-toolbar {
+    --background: #22bddf;
+    border-bottom: 0;
+  }
+  ion-menu-button{
+    color: #fff;
+  }
+  .i_font{
+    font-size: 18px!important;
+  }
+  
+  .background_sidemenu>ion-list {
+    background: transparent;
+    margin-bottom: 0px;
+  }
+  
+  .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item {
+    --background: transparent;
+    color: rgba(51, 51, 51, 1);
+    --border-color: rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    --background-focused: rgba(34, 189, 223, 0.6);
+    --background-activated: rgba(34, 189, 223, 0.6);
+  }
+  .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item:last-child {
+    color: rgba(255, 106, 106, 1);
+  }
+  
+  .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item>ion-label {
+    margin: 20px 10px;
+    
+  }
+  
+  .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item>ion-label>span>img {
+    width: 18px;
+    margin-right: 10px;
+    margin-left: 5px;
+  }
+  
+  // .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item>ion-label>span:nth-child(2) {
+  //   float: right;
+  // }
+  
+  .background_sidemenu>ion-list>ion-menu-toggle>div>ion-item>ion-label>span:nth-child(2)>i {
+    font-size: 12px;
+    font-weight: 400;
+  }
+  
+  .sidemenu_toolbar {
+    --background: transparent;
+    --border-color: #fff0;
+    padding: 50px 0px 10px 0px;
+    padding-top: 35px !important;
+  }
+  
+  .sidemenu_toolbar>ion-title {
+    padding: 15px;
+    text-align: left;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+  ion-title{
+    // position: absolute;
+    // top: 0;
+    // width: 100%;
+    // left: 0;
+    // height: 100%;
+    // text-align: center;
+    color: #fff;
+    text-transform: capitalize;
+  }
+  
+  .mb-30 {
+    margin-bottom: 30px;
+  }
+  
+  .mb-10 {
+    margin-bottom: 10px;
+  }
+  .mb-20{
+    margin-bottom: 20px !important;
+  }
+  .mt-20{
+    margin-top: 20px !important;
+  }
+  
+  .modal {
+    display: inherit !important;
+  }
+  
+  .profile_icon{
+    padding: 25px 0px 25px 15px;
+    color: #fff;
+    font-size: 20px;
+    background-image: linear-gradient( 90deg, rgb(57,180,73) 0%, rgb(49,203,237) 100%);
+    background-image: -moz-linear-gradient( 0deg, rgb(57,180,73) 0%, rgb(49,203,237) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgb(57,180,73) 0%, rgb(49,203,237) 100%);
+    background-image: -ms-linear-gradient( 0deg, rgb(57,180,73) 0%, rgb(49,203,237) 100%);
+    text-transform: capitalize;
+  }
+  .profile_icon > span{
+    display: block;
+    font-weight: 100;
+    font-size: 14px;
+    letter-spacing: 0px;
+  }
+  .profile_icon > span.user_nme{
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .no_data{
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    /* text-align: center; */
+    align-self: center;
+    align-content: center;
+    width: 100%;
+    }
+  .no_data p{
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #9e9e9e; 
+    }
+    .edit_btn_container{
+      --background: transparent;
+      background-image: linear-gradient(90deg, #31cbed 0%, #39b449 100%);
+      color: white;
+      border-radius: 50%;
+  }
+  .edit_button{
+      text-align: center;
+      border-radius: 25px;
+      background-image: linear-gradient(90deg, #31cbed 0%, #39b449 100%);
+      color: white;
+  }

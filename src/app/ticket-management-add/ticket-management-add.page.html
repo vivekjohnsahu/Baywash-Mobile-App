@@ -1,0 +1,144 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color ="#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Add Ticket
+            <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="padding">
+    <form (ngSubmit)="ticketData()" [formGroup]="ticket_add" *ngIf="!imageZoom">
+		<ion-item size="12" no-padding class="col form_container">
+			<ion-label position="floating" class="star">Ticket Type</ion-label>
+			<ion-select [(ngModel)]="ticket.tickett_ype" formControlName="tickett_ype" (ionChange)="tickettType($event.target.value)" required [class.error1]="!ticket_add.controls.tickett_ype.valid && ticket_add.controls.tickett_ype.dirty" [interfaceOptions]="customActionSheetOptions" interface="action">
+				<ion-select-option value="1">External</ion-select-option>
+				<ion-select-option value="2">Internal</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<ion-item no-padding class="col form_container">
+			<ion-label position="floating" class="star">Title</ion-label>
+			<ion-input type="text" clear-input="true" [(ngModel)]="ticket.title" [class.error1]="!ticket_add.controls.title.valid && ticket_add.controls.title.dirty"  formControlName="title" required></ion-input>
+		</ion-item>
+		<ion-item no-padding class="col form_container">
+			<ion-label position="floating">Description</ion-label>
+			<ion-input type="text" clear-input="true" [(ngModel)]="ticket.descripion" formControlName="descripion"></ion-input>
+		</ion-item>
+		<ion-item size="12" class="col form_container" no-padding>
+			<ion-label position="floating">Priority</ion-label>
+			<ion-select [(ngModel)]="ticket.priority" formControlName="priority" (ionChange)="priority($event.target.value)" [interfaceOptions]="customActionSheetOptions" interface="action">
+				<ion-select-option value="1">Low</ion-select-option>
+				<ion-select-option value="2">Medium</ion-select-option>
+				<ion-select-option value="3">High</ion-select-option>
+				<ion-select-option value="4">Critical</ion-select-option>
+			</ion-select>
+		<!-- <ion-input name="" id="focusinput" (focusout)="focusset()" [(ngModel)]="ticket.priority" formControlName="priority" ></ion-input> -->
+		</ion-item>
+		<!-- <div class="selec_society_div">
+			<ul name="deepak" class="selec_society"  id="focusSelect"  size="4" style="opacity:0;visibility: hidden;display:none">
+				<li (click)="prioritySelect(1,'Low')" value="1" >Low</li>
+				<li (click)="prioritySelect(2,'Medium')" value="2">Medium</li>
+				<li (click)="prioritySelect(3,'High')" value="3">High</li>
+				<li (click)="prioritySelect(4,'Critical')" value="4">Critical</li>
+			</ul>
+		</div> -->
+		<ion-item size="12" no-padding class="col form_container" *ngIf="customer_name_field">
+			<ion-label position="floating">Customer Name</ion-label>
+			<ion-input class="ioninput" [(ngModel)]="ticket.customer" formControlName="customer" (keyup)="ticketCustomeList(ticket.customer)"></ion-input>
+		</ion-item>
+		<div *ngIf="( customers_listing | filter : ticket.customer) as result" [hidden]="ticket_custome_list">
+			<table id="customers" >
+				<tr *ngFor = "let item of result | filter:ticket.customer">
+				  <th (click)="customerGet(item.id,item.first_name,item.last_name)" >{{item.first_name}} {{item.last_name}}</th>
+				</tr>
+			</table>
+		</div>
+		<ion-item no-padding class="col form_container" *ngIf="customer_name_field">
+			<ion-label position="floating">Flat</ion-label>
+			<ion-input class="ioninput" type="text" clear-input="true" [(ngModel)]="ticket.flat" formControlName="flat"></ion-input>
+		</ion-item>
+		<ion-item no-padding class="col form_container" *ngIf="customer_name_field">
+			<ion-label position="floating">Tower</ion-label>
+			<ion-input class="ioninput" type="text" clear-input="true" [(ngModel)]="ticket.tower" formControlName="tower"></ion-input>
+		</ion-item>
+		<ion-item no-padding class="colform_container">
+			<ion-label position="floating" style="color:#000;">Worker Name</ion-label>
+			<ion-input class="ioninput" [(ngModel)]="ticket.worker" formControlName="worker" (keyup)="workerFnc(ticket.worker)"></ion-input>
+		</ion-item>
+		<div *ngIf="( worker_list | filter : ticket.worker) as result" [hidden]="workerListHide">
+			<table id="customers" >
+				<tr *ngFor = "let item of result | filter:ticket.worker">
+				<th (click)="getWorkerGet(item.worker_id,item.workerName)" >{{item?.workerName}}</th>
+				</tr>
+			</table>
+		</div>
+		<ion-item size="12" no-padding class="col form_container">
+			<ion-label position="floating">Society</ion-label>
+			<ion-input class="ioninput" no-padding disabled formControlName="society" [(ngModel)]="ticket.society"></ion-input>
+		</ion-item>
+		<ion-item size="12" no-padding class="col form_container">
+			<ion-label position="floating">Status</ion-label>
+			<ion-select [(ngModel)]="ticket.status" (ionChange)="userStatus($event.target.value)" formControlName="status" [interfaceOptions]="customActionSheetOptions" interface="action">
+				<ion-select-option value="1">Closed</ion-select-option>
+				<ion-select-option value="2">Open</ion-select-option>
+				<ion-select-option value="3">In Progress</ion-select-option>
+				<ion-select-option value="4">Resolved</ion-select-option>
+				<ion-select-option value="5">On Hold</ion-select-option>
+			</ion-select>
+			<!-- <ion-input type="text" id="focusinput1" (focusout)="focusset()" [(ngModel)]="ticket.status" formControlName="status" ></ion-input> -->
+		</ion-item>
+		<!-- <div class="selec_society_div">
+			<ul class="selec_society" id="focusSelect1" size="5" style="opacity:0;visibility: hidden;display:none">
+				<li (click)="userStatus(2,'Open')" value="2" >Open</li>
+				<li (click)="userStatus(1,'Closed')" value="1" >Closed</li>
+				<li (click)="userStatus(3,'In Progress')" value="3" >In Progress</li>
+				<li (click)="userStatus(4,'Resolved')" value="4" >Resolved</li>
+				<li (click)="userStatus(5,'On Hold')" value="5" >On Hold</li>
+			</ul>
+		</div> -->
+		<div size="12" no-padding class="col form_container attachment">
+			<span>Uploading any Attachment too</span>
+		</div>
+		<div  class="main_container">
+			<div class="container">
+				<div class="document_upload">
+					<div>
+						<label for="browse"><span><i class="fa fa-upload" aria-hidden="true"></i></span> <ion-button class="IonBtn" (click)="DockFileUploade()">Upload</ion-button></label>
+						<input type="file" id="insuranceBrowse" name='insuranceBrowse' />
+						<span style="font-size: 13px;color: #9a9999;"> jpg, pdf, word file</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="imageArrayShowOnly.length>0">	
+			<div class="document" *ngFor="let docmt of imageArrayShowOnly; let i = index">
+				<span class="document_span" *ngIf="docmt?.extension=='jpg' || docmt?.extension=='jpeg' || docmt?.extension=='png'">
+					<span style="color: red;" (click)="removeImage(i)"><ion-icon name="close"></ion-icon></span>
+					<img src={{baseUrlImage}}{{docmt?.dummy_file}} (click)="openModel(baseUrlImage,docmt?.dummy_file)" alt="note">
+				</span>
+				<span class="document_span" *ngIf="docmt?.extension=='pdf'">
+					<span style="color: red;" (click)="removeImage(i)"><ion-icon name="close"></ion-icon></span>
+					<img src='assets/images/icon/images.jpg' (click)="pdfView(baseUrlImage,docmt?.dummy_file,docmt?.extension)"alt="note">
+				</span>
+				<span class="document_span" *ngIf="docmt?.extension=='docx' || docmt?.extension=='doc' || docmt?.extension=='document' || docmt?.extension=='plain'">
+					<span style="color: red;" (click)="removeImage(i)"><ion-icon name="close"></ion-icon></span>
+					<img src='assets/images/icon/download.png' (click)="pdfView(baseUrlImage,docmt?.dummy_file,docmt?.extension)" alt="note">
+				</span>
+				<span class="document_span" *ngIf="docmt?.extension=='gif'">
+					<span style="color: red;" (click)="removeImage(i)"><ion-icon name="close"></ion-icon></span>
+					<img src='assets/images/icon/2019-GifsInEmail.gif' (click)="openModel(baseUrlImage,docmt?.id_proof)" alt="note">
+				</span>
+			</div>
+		</div>
+		<div class="sign_in_button">
+			<button shape="round" type="submit" [disabled]="ticket_add.invalid">Submit</button>
+		</div>
+	</form>
+</ion-content>
+<div *ngIf="imageZoom" class="zoom">
+	<span (click)="popupCancel()"><ion-icon name="close"></ion-icon></span>
+	<img src={{imageZoomdata}} alt="note">
+</div>

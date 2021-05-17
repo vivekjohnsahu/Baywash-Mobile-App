@@ -1,0 +1,56 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			ReAssign Worker
+			<span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+		</ion-title>
+		<ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+			<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+			<ion-badge id="cart-badge"*ngIf="noti_count>0">{{noti_count}}</ion-badge>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid class="no-padding">
+        <ion-row no-padding>
+			<ion-col no-padding>
+				<form novalidate (ngSubmit)="reassignWorker()" class="loginFormMargin" [formGroup]="reassign">
+					<ion-item class="form_container">
+						<ion-label position="floating" style="color:#000;">Customer Name</ion-label>
+						<ion-input no-padding readonly  formControlName="customer" [(ngModel)]="workerData.customer"></ion-input>
+					</ion-item>
+					<ion-item class="form_container">
+						<ion-label position="floating"style="color:#000;">Car Details</ion-label>
+						<ion-input no-padding readonly formControlName="car_details" [(ngModel)]="workerData.car_details"></ion-input>
+					</ion-item>
+					<ion-item class="form_container">
+						<ion-label position="floating"style="color:#000;">Service Type</ion-label>
+						<ion-input no-padding readonly  formControlName="service" [(ngModel)]="workerData.service"></ion-input>
+					</ion-item>
+					<ion-item class="form_container">
+						<ion-label position="floating"style="color:#000;">Job Duration (In Minutes)</ion-label>
+						<ion-input no-padding readonly formControlName="minute" [(ngModel)]="workerData.minute"></ion-input>
+					</ion-item>
+					<ion-item class="form_container">
+						<ion-label position="floating"style="color:#000;">Job Date</ion-label>
+						<ion-input readonly formControlName="jon_date" [(ngModel)]="workerData.jon_date"></ion-input>
+					</ion-item>
+					<ion-item class="form_container">
+						<ion-label position="floating">Reassign Worker</ion-label>
+						<ion-select [interfaceOptions]="{cssClass: 'select_box_width'}" [interfaceOptions]="customActionSheetOptions" interface="action" formControlName="reassign_worker" [(ngModel)]="workerData.reassign_worker">
+							<ion-select-option *ngFor="let worker of worker_list" [value]='worker.worker_id'>{{worker.workerName}}, {{worker.worker_hour_array}}</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<div class="sign_in_button">
+						<button style="margin-right: 10px;" shape="round" type="submit" [disabled]="reassign.invalid">Save</button>
+						<button shape="round" type="button" style="margin-left: 10px;" (click)="backPage()">Cancel</button>
+					</div>
+				</form>
+			</ion-col>
+      	</ion-row>
+    </ion-grid>
+</ion-content>

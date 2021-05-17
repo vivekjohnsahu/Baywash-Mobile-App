@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+	<ion-buttons slot="start">
+    	<span style="text-align:center;width:48px;" (click)="dismiss()"><img style="width:16px;" src="assets/images/icon/back-button.png"></span>
+	</ion-buttons>
+	<ion-title>
+		Worker Filters
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <!-- <ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+      <a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+      <ion-badge id="cart-badge">7</ion-badge>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<form novalidate class="loginFormMargin">
+					<ion-item no-padding class="colform_container">
+						<ion-label position="floating" style="color:#000;">Worker Name</ion-label>
+						<ion-input [(ngModel)]="worker" name="worker"></ion-input>
+					</ion-item>
+					<div class="sign_in_button">
+						<button shape="round" type="submit" (click)="filterData()">Continue</button>
+						<button shape="round" type="button" (click)="reset()">Reset</button>
+					</div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

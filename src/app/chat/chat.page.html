@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>chat</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <section class="msger chat_window_start" id="chat_window_start">
+    <main  *ngFor="let msg of get_msg" class="msger-chat scroll_chat">
+      <div class="msg left-msg" *ngIf="msg.first_name!=null">
+        <div class="msg-img" style="background-image: url(assets/images/sidemenu/download.png);display: none;"></div>
+        <div class="msg-bubble" style="width: 100%;">
+          <div class="msg-info">
+            <div class="msg-info-name" (click)="allPage()">{{msg?.first_name}}</div>
+            <div style="font-size: 10px;" class="msg-info-time" (click)="allPage()"><span><i class="fa fa-calendar" aria-hidden="true"></i></span> 
+              {{msg.CREATED_DATE}}</div>
+          </div>
+          <div class="msg-text" style="text-align: left;"  *ngIf="msg.content!=''">
+            {{msg.content}}
+          </div>
+          <div class="msg-text" *ngIf="msg.attachment_file!='null'">
+            <span class="document_span"  style="text-align: left;" *ngIf="msg?.extension=='jpg' || msg?.extension=='jpeg' || msg?.extension=='png'">
+              <img style="width: 25%;height: 50px;" src={{baseUrlImage2}}{{msg?.attachment_file}} (click)="openModel(baseUrlImage2,msg?.attachment_file)" alt="note">
+            </span>
+            <span class="document_span"  style="text-align: left;" *ngIf="msg?.extension=='pdf'" (click)="pdfView(baseUrlImage2,msg?.attachment_file,msg?.extension)">
+              <img style="width: 20%;height: 75px;" src='assets/images/icon/images.jpg' alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span"  style="text-align: left;" (click)="pdfView(baseUrlImage2,msg?.attachment_file,msg?.extension)" *ngIf="msg?.extension=='docx' || msg?.extension=='doc' || msg?.extension=='document' || msg?.extension=='plain'">
+              <img  style="width: 20%;height: 75px;"src='assets/images/icon/download.png' alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span"  style="text-align: left;" (click)="pdfView(baseUrlImage2,msg?.attachment_file,msg?.extension)" *ngIf="msg?.extension=='txt'">
+              <img  style="width: 20%;height: 75px;"src='assets/images/icon/download.jfif' alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span"  style="text-align: left;" *ngIf="msg?.extension=='gif'" (click)="openModel(baseUrlImage2,msg?.attachment_file)">
+              <img style="width: 25%;height: 50px;" src='assets/images/icon/2019-GifsInEmail.gif' alt="note">
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="msg right-msg" *ngIf="msg.first_name==null">
+        <div class="msg-img" style="background-image: url(assets/images/sidemenu/download.png);display: none;"></div>
+        <div class="msg-bubble" style="width: 100%;">
+          <div class="msg-info">
+            <div style="font-size: 10px;" class="msg-info-time" (click)="allPage()"><span><i class="fa fa-calendar" aria-hidden="true"></i></span> {{msg.CREATED_DATE }}</div>
+            <div class="msg-info-name" (click)="allPage()">{{user_details.first_name}}</div>
+          </div>
+          <div class="msg-text" style="text-align: right;" *ngIf="msg.content!=''">
+            {{msg.content}}
+          </div>
+          <div class="msg-text" style="text-align: right;" *ngIf="msg.attachment_file!='null'">
+            <span class="document_span" style="text-align: right;" *ngIf="msg?.extension=='jpg' || msg?.extension=='jpeg' || msg?.extension=='png'">
+              <img style="width: 25%;height: 50px;" src={{baseUrlImage}}{{msg?.attachment_file}} (click)="openModel(baseUrlImage,msg?.attachment_file)" alt="note">
+            </span>
+            <span class="document_span" style="text-align: right;" *ngIf="msg?.extension=='pdf'" (click)="pdfView(baseUrlImage,msg?.attachment_file,msg?.extension)">
+              <img  style="width: 20%;height: 75px;"src='assets/images/icon/images.jpg'alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span" style="text-align: right;" (click)="pdfView(baseUrlImage,msg?.attachment_file,msg?.extension)" *ngIf="msg?.extension=='docx' || msg?.extension=='doc' || msg?.extension=='document' || msg?.extension=='plain'">
+              <img  style="width: 20%;height: 75px;" src='assets/images/icon/download.png' alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span" style="text-align: right;" (click)="pdfView(baseUrlImage,msg?.attachment_file,msg?.extension)" *ngIf="msg?.extension=='txt'">
+              <img  style="width: 20%;height: 75px;" src='assets/images/icon/download.jfif' alt="note">
+              <span style="margin: 5px 0px 0px 0px;display: inline-block;width: 100%;font-size: 12px;padding: 2px 4px 2px 4px;">{{msg?.attachment_file}}</span>
+            </span>
+            <span class="document_span" style="text-align: right;" *ngIf="msg?.extension=='gif'" (click)="openModel(baseUrlImage,msg?.attachment_file)">
+              <img style="width: 25%;height: 50px;" src='assets/images/icon/2019-GifsInEmail.gif' alt="note">
+            </span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+  <div *ngIf="imageZoom" class="zoom" style="width: 100%;">
+		<span (click)="popupCancel()"><ion-icon name="close"></ion-icon></span>
+		<img style="width: 85%;" src={{imageZoomdata}} alt="note">
+	</div>
+</ion-content>
+<ion-footer>
+  <form class="msger-inputarea">
+    <span (click)="insuranceFileUploade()"><i class="fa fa-paperclip" aria-hidden="true"></i></span>
+    <input type="text" style="outline: none;text-transform: none;" class="msger-input" name='message' [(ngModel)]="message" placeholder="Enter your message...">
+    <button style="outline: none;" type="submit" class="msger-send-btn" (click)="submit()">Send</button>
+  </form>
+</ion-footer>

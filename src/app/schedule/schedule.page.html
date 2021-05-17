@@ -1,0 +1,66 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Worker Load
+      <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end" class="search_icon_container">
+      <a style="color: white;font-size: 17px;margin-right: 7px;" class="search_icon" (click)="filterList()"><i class="fa fa-filter" aria-hidden="true"></i></a>
+      <a (click)="presentModal()" class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+      <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="filter">
+        <div style="color: #22bddf;">
+          <span *ngIf="button_disable==2" (click)="click_time_minus()"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+          <span *ngIf="button_disable==1"><i style="color: #ccc;" class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+          <span>{{date | date: "dd"}} {{date | date: "LLLL"}} {{date | date: "yyyy"}}, <span id="startday">{{date | date: "EEEE"}} </span></span>
+           <span *ngIf="button_disable_1==2" (click)="click_time_plus()"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+           <span *ngIf="button_disable_1==1"><i style="color: #ccc;" class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+        </div>
+      </ion-col>
+      <ion-col class="main_container_text" size="12" *ngFor="let worker of worker_list"  (click)="pageSchedule(worker?.customer_type,worker?.jobid,worker?.worker_id,worker?.job_date,worker?.workerName)" [hidden]="data_not_found==2">
+				<div class="left_line">
+					<div class="new_add">	
+						<strong>Worker Name : </strong><span>{{worker.workerName}}</span>
+					</div>
+					<div class="text_container" >
+					<!-- <div class="text_container" *ngIf="worker?.customer_type==2"> -->
+						<div>
+							<strong>Daily Jobs: </strong><span>{{worker.frequency.daily}}</span>
+						</div>
+						<div>
+							<strong>Weekly Jobs : </strong><span>{{worker.frequency.weekly}}</span>
+						</div>
+						<div>
+							<strong>Monthly Jobs : </strong><span>{{worker.frequency.monthly}}</span>
+            </div>
+            <div>
+              <strong>Guest Jobs: </strong><span>{{worker.frequency.guest}}</span>
+            </div>
+					</div>
+					<!-- <div class="text_container"> -->
+					<!-- <div class="text_container" *ngIf="worker?.customer_type!=2"> -->
+						<!-- <div> -->
+							<!-- <strong>Guest Jobs: </strong><span>{{worker.frequency.guest}}</span> -->
+						<!-- </div> -->
+					<!-- </div> -->
+					<div class="btn_container">
+						<button (click)="ActiveCarPage(worker.worker_id,worker.job_date,worker.workerName,$event)">View Active Cars</button>
+					</div>
+				</div>
+      </ion-col>
+      <ion-col class="no_data" [hidden]="data_not_found==0 || data_not_found==1" size="12">
+        <p>No Worker Found</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

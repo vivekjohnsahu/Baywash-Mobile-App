@@ -1,0 +1,199 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="back()">
+		<ion-back-button></ion-back-button>
+	  </ion-buttons>
+    <ion-title>
+		Schedule Management
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end" class="search_icon_container">
+		<a [hidden]="!no_data_found" style="color: white;font-size: 17px;margin-right: 7px;" class="search_icon" (click)="printData()"><i class="fa fa-print" aria-hidden="true"></i></a>
+		<a style="color: white;font-size: 17px;margin-right: 7px;" class="search_icon" (click)="filterList()"><i class="fa fa-filter" aria-hidden="true"></i></a>
+      	<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png" (click)="presentModal()"></a>
+      <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid #printMe>
+        <ion-row>
+          	<ion-col  class="main_container_text" size="12" [hidden]="no_data_found==2" *ngFor="let schedule of scheduleList;let i = index">
+				<div class="left_line">
+					<div class="new_add">	
+						<strong>Customer : </strong><span> {{schedule?.customer_name}} ({{schedule?.flat}}, {{schedule?.tower}})</span>
+						<!-- <span id="chekbox_{{schedule?.id}}" [ngClass]="{'addTop': schedule?.key_returned == 'Yes' , 'removeTop': schedule?.key_returned != 'Yes'}" style="float: right;margin-top: 1px;" [hidden]="schedule?.job_status!=0"><input type="checkbox" id="checkbox_{{schedule?.id}}" (click)="scheduleSelect(i,schedule?.id,schedule?.supervisor_id,schedule?.worker_id,schedule?.customer_id,schedule?.jobDate)"></span> -->
+						<span id="chekbox_{{schedule?.id}}" style="float: right;margin-top: 1px;" [hidden]="schedule?.job_status!=0"><input type="checkbox" id="checkbox_{{schedule?.id}}" class="comanChekByClass" (click)="scheduleSelect(i,schedule?.id,schedule?.supervisor_id,schedule?.worker_id,schedule?.customer_id,schedule?.jobDate,schedule?.key_returned,schedule?.frequency,schedule?.service_name)"></span>
+					</div>
+					<div class="new_add">
+						<strong>Car: </strong><span>{{schedule?.company_name}}, {{schedule?.model}} ( <span style="text-transform: uppercase;">{{schedule?.registration_no}}</span> )</span>
+					</div>
+					<div class="text_container" [ngClass]="{'my-add-class3': schedule?.job_status!=0}">
+						<div>
+							<strong>Worker : </strong>
+							<span *ngIf="schedule?.workerName!=null"> {{schedule?.workerName}} </span>
+							<span *ngIf="schedule?.workerName==null">  &mdash; </span>
+						</div>
+						<div>
+							<strong>Service : </strong>
+							<span *ngIf="schedule?.service_name!=null"> {{schedule?.service_name}} </span>
+							<span *ngIf="schedule?.service_name==null">  &mdash; </span>
+						</div>
+						<div>
+							<strong>Date :</strong><span> {{schedule?.jobDate | date: "dd-MM-yyyy"}} </span>
+						</div>
+						<div *ngIf="schedule?.job_status=='2'">
+							<strong>status : </strong>
+							<span class="not_done">Not Done ( {{schedule?.work_not_done_reason}} )</span>
+						</div>
+						<div *ngIf="schedule?.job_status=='1'">
+							<strong>status : </strong>
+							<span class="done">Done</span>
+						</div>
+						<!-- <div *ngIf="schedule?.frequency!='1'"  [hidden]="schedule?.job_status!=0"> -->
+						<div [hidden]="schedule?.job_status!=0 || schedule?.future_date==1" *ngIf="schedule?.frequency!='1'">
+							<strong *ngIf="schedule?.frequency!='1'">Keys Returned</strong>
+							<div style="display: flex;margin-top: 10px;">
+								<span id="icon_right_true_{{schedule?.id}}" [ngClass]="{'addTop': schedule?.key_returned == 'Yes' , 'removeTop': schedule?.key_returned != 'Yes'}" class="icon_check" (click)="singleSchedule(i,schedule?.id,schedule?.supervisor_id,schedule?.worker_id,schedule?.customer_id,schedule?.jobDate,'1')"><i class="fa fa-check" aria-hidden="true"></i></span>
+								<span id="icon_right_false_{{schedule?.id}}" [ngClass]="{'remove': schedule?.key_returned != 'Yes', 'removeTop': schedule?.key_returned == 'Yes'}"  class="cla_gray"><i class="fa fa-check" aria-hidden="true"></i></span>
+								<span id="icon_cancel_true_{{schedule?.id}}"  class="icon_check2" (click)="singleNotDone(schedule?.id,schedule?.jobDate,'1')"><i class="fa fa-times" aria-hidden="true"></i></span>
+								<!-- <span id="icon_cancel_false_{{schedule?.id}}" [ngClass]="{'addTop': schedule?.key_returned == 'Yes' , 'removeTop': schedule?.key_returned != 'Yes'}"  class="cla_gray2"><i class="fa fa-times" aria-hidden="true"></i></span> -->
+							</div>
+						</div>
+						<div [hidden]="schedule?.job_status!=0 || schedule?.future_date==1" *ngIf="schedule?.frequency=='1'">
+							<div style="display: flex;margin-top: 10px;">
+								<span id="icon_right_true_{{schedule?.id}}" [ngClass]="{'addTop': schedule?.key_returned != 'Yes' , 'removeTop': schedule?.key_returned == 'Yes'}" class="icon_check" (click)="singleSchedule(i,schedule?.id,schedule?.supervisor_id,schedule?.worker_id,schedule?.customer_id,schedule?.jobDate,'1')"><i class="fa fa-check" aria-hidden="true"></i></span>
+								<span id="icon_cancel_true_{{schedule?.id}}" [ngClass]="{'remove': schedule?.key_returned != 'Yes', 'removeTop': schedule?.key_returned == 'Yes'}" class="icon_check2" (click)="singleNotDone(schedule?.id,schedule?.jobDate,'1')"><i class="fa fa-times" aria-hidden="true"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="btn_container">
+						<!-- <div class="checkbox_lable"  [hidden]="schedule?.job_status!=0"> -->
+						<div class="checkbox_lable" *ngIf="schedule?.frequency!='1'" [hidden]="schedule?.job_status!=0 || schedule?.future_date==1">
+							<span class="radio1">
+								<input class="comanChekByClass" lang="checkbox_{{schedule?.id}}" style="vertical-align: middle;" type="radio" id="Yes" (click)="keyReturn('Yes' ,schedule?.id,schedule?.key_returned)" [checked]="schedule?.key_returned=='Yes'" name="key_return_{{schedule?.id}}" value="Yes">
+								<label style="margin-left: 4px;vertical-align: middle;" for="Yes">Yes</label>
+							</span>
+							<span class="radio2">	
+								<input class="comanChekByClass" lang="checkbox_{{schedule?.id}}" style="vertical-align: middle;" type="radio" id="No" (click)="keyReturn('No', schedule?.id,schedule?.key_returned)" [checked]="schedule?.key_returned!='Yes'" name="key_return_{{schedule?.id}}" value="No">
+								<label style="margin-left: 4px;vertical-align: middle;" for="No">No</label>
+							</span>
+						</div>		
+						<!-- <div [hidden]="schedule?.job_status==0" [ngClass]="{'my-add-class2': schedule?.job_status!=0}" >
+							<span style="border-bottom: solid 1px;">
+								Reassign
+							</span>
+						</div> -->
+						<div [hidden]="schedule?.job_status!=0"  style="color: #22bddf;" (click)="reassignPage(schedule?.jobDate,schedule?.id)">
+							<span style="border-bottom: solid 1px;">
+								Reassign
+							</span>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-col class="no_data" [hidden]="no_data_found!=2" size="12">
+	<!-- <ion-col class="no_data" [hidden]="no_data_found==1 || no_data_found==0" size="12"> -->
+		<p>No data available for scheduling</p>
+	</ion-col>
+	<div class="custom-modal_main" *ngIf="NotDoneSchedulePopup">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>Work Not Done Reason</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<form action="">
+					<ion-item>
+						<ion-select okText="Apply" placeholder="Select Reason" cancelText="Cancel" [(ngModel)]="not_done_schedul_status" name="not_done_schedul_status" (ionChange)="notDoneSchedulStatus($event.target.value)">
+						 	<!-- <ion-select-option value="Pre-Scheduling">Pre-Scheduling</ion-select-option> -->
+							<ion-select-option value="Holiday">Holiday</ion-select-option>
+							<ion-select-option value="Car Not Available">Car Not Available</ion-select-option>
+							<ion-select-option value="Key Not Available">Key Not Available</ion-select-option>
+							<ion-select-option value="Worker Not Available">Worker Not Available</ion-select-option>
+							<ion-select-option value="Other">Other</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<button class="submit" type="submit" (click)="NotDoneScheduleSubmitPopup()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="custom-modal_main" *ngIf="reScheduleJobPopup">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>ReSchedule Job</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<form action="">
+					<ion-item>
+						<ion-input id="txtDate" style="text-transform: uppercase;margin-left: 10px;" name="reschedule_job_date" value="" [(ngModel)]="reschedule_job_date" type="date" ></ion-input>					
+						<!-- <ion-datetime placeholder="Enter ReSchedule Date" displayFormat="DD-MM-YYYY" pickerFormat="DD-MM-YYYY" name="reschedule_job_date" (ionChange)="selectDateInReschedule($event.target.value)"></ion-datetime> -->
+					</ion-item>
+					<ion-item>
+						<ion-select style="--padding-start: 10px;" okText="Apply" placeholder="Select Reason" cancelText="Cancel" [(ngModel)]="reschedule_job_status" name="reschedule_job_status" (ionChange)="rescheduleJobStatus($event.target.value)">
+						 	<ion-select-option value="Pre-Scheduling">Pre-Scheduling</ion-select-option>
+							<ion-select-option value="Holiday">Holiday</ion-select-option>
+							<ion-select-option value="Car Not Available">Car Not Available</ion-select-option>
+							<ion-select-option value="Key Not Available">Keys Not Available</ion-select-option>
+							<ion-select-option value="Worker Not Available">Worker Not Available</ion-select-option>
+							<ion-select-option value="Other">Other</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<button class="submit" type="submit" (click)="RescheduleJobSubmitPopup()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div *ngIf='loader_footer'>
+		<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" >
+			<ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+		</ion-infinite-scroll>
+	</div>
+</ion-content>
+<ion-footer [hidden]="scheduleList==null">
+	<div class="footer">
+		<div (click)="runSchedule()">
+			<span><img src="assets/images/icon/run-schedule.png" alt=""></span>
+			<span>Run Schedule</span>
+		</div>
+		<div *ngIf="dateChekChek==0" style="display: flex;flex-wrap: wrap;">
+			<div *ngIf="jobDonebottomDis==0" (click)="DoneSchedule()" style="display: flex;flex-wrap: wrap;width: 100%;">
+				<span style="width: 100%;display: inline-block;margin-bottom: 5px;"><img style="max-width: 25px;" src="assets/images/icon/done.png" alt=""></span>
+				<span style="width: 100%;display: inline-block">Done</span>
+			</div>
+			<div (click)="alertmagissue()" *ngIf="jobDonebottomDis==1" style="display: flex;flex-wrap: wrap;width: 100%;">
+			<!-- <div (click)="alertmagissue()" *ngIf="jobDonebottomDis==1" style="background: linear-gradient(to bottom, #86dd92, #4fbed7);display: flex;flex-wrap: wrap;width: 100%;"> -->
+				<span style="width: 100%;display: inline-block;margin-bottom: 5px;"><img style="max-width: 25px;" src="assets/images/icon/done.png" alt=""></span>
+				<span style="width: 100%;display: inline-block">Done</span>
+			</div>
+		</div>
+		<div *ngIf="dateChekChek==1" style="display: flex;flex-wrap: wrap;">
+			<div (click)="alertmagissue()" style="display: flex;flex-wrap: wrap;width: 100%;">
+				<span style="width: 100%;display: inline-block;margin-bottom: 5px;"><img style="max-width: 25px;" src="assets/images/icon/done.png" alt=""></span>
+				<span style="width: 100%;display: inline-block">Done</span>
+			</div>
+		</div>
+		<div (click)="NotDoneSchedule()"  *ngIf="jobReSchedule==0">
+			<span><img src="assets/images/icon/not-done.png" alt=""></span>
+			<span>Not Done</span>
+		</div>
+		<div (click)="NotDoneScheduleissue()" *ngIf="jobReSchedule==1" >
+		<!-- <div (click)="NotDoneScheduleissue()" *ngIf="jobReSchedule==1" style="background: linear-gradient(to bottom, #86dd92, #4fbed7);"> -->
+			<span><img src="assets/images/icon/not-done.png" alt=""></span>
+			<span>Not Done</span>
+		</div>
+		<div (click)="RescheduleJob()" *ngIf="jobReSchedule_new==0">
+			<span><img src="assets/images/icon/reschedule-job.png" alt=""></span>
+			<span>ReSchedule</span>
+		</div>
+		<div (click)="Rescheduleissue()" *ngIf="jobReSchedule_new==1" style="background: linear-gradient(to bottom, #86dd92, #4fbed7);">
+			<span><img src="assets/images/icon/reschedule-job.png" alt=""></span>
+			<span>ReSchedule</span>
+		</div>
+	</div>
+</ion-footer>

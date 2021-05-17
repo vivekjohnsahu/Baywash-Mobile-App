@@ -1,0 +1,121 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="back()">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+		<span>Ticket Management</span>
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end" class="search_icon_container">
+		<a style="color: white;font-size: 17px;margin-right: 7px;" class="search_icon" (click)="filterList()"><i class="fa fa-filter" aria-hidden="true"></i></a>
+      	<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png" (click)="presentModal()"></a>
+      <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+			<ion-col class="no_data" [hidden]="worker_details_hide!=0" size="12">
+				<p>No Ticket Found</p>
+			</ion-col>
+          	<ion-col class="main_container_text" size="12" *ngFor="let list of ticket" [hidden]="worker_details_hide==0">
+				<div class="left_line" (click)="ticket_details(list.id)">
+					<div class="text_container">
+						<div>
+							<strong>Ticket Id : </strong>
+							<span *ngIf="list.ticket_id!=''">{{list.ticket_id}}</span>
+							<span *ngIf="list.ticket_id==''"> &mdash; </span>
+						</div>
+						<div>
+							<strong>Title : </strong><span style="text-transform:none">{{list.ticket_title | slice:0:40}} <span *ngIf="list.ticket_title.split('').length>40">...</span></span>
+						</div>
+						<div *ngIf="list.ticket_type!=2">	
+							<strong>Customer
+								<span style="color: black;">(</span>
+								<span style="color: black;">flat</span> 
+								<span style="color: black;"> and </span> 
+								<span style="color: black;">tower</span>
+								<span style="color: black;">) </span>
+							: </strong>
+							<span> {{list.CUSTOMER_NAME}} </span> 
+							<span *ngIf="list.CUSTOMER_NAME==null"> &mdash; </span>
+							<span *ngIf="list.tower!='' || list.flat!=''">(</span>
+							<span *ngIf="list.flat!=''">{{list.flat}}</span> 
+							<span *ngIf="list.tower!='' && list.flat!=''">, </span> 
+							<span *ngIf="list.tower!=''">{{list.tower}}</span>
+							<span *ngIf="list.tower!='' || list.flat!=''">)</span>
+						</div>
+						<div>
+							<strong>Worker : </strong>
+							<span *ngIf="list.worker_name==null"> &mdash; </span>
+							<span *ngIf="list.worker_name!=null">{{list.worker_name}}</span>
+						</div>
+						<div>
+							<strong>Priority : </strong>
+							<span *ngIf="list.priority==1">Low</span>
+							<span *ngIf="list.priority==2">Medium</span>
+							<span *ngIf="list.priority==3">High</span>
+							<span *ngIf="list.priority==4">Critical</span>
+							<span *ngIf="list.priority==''"> &mdash; </span>
+						</div>
+						<div>
+							<strong>Type : </strong>
+							<span *ngIf="list.ticket_type==1">External</span>
+							<span *ngIf="list.ticket_type==2">Internal</span>
+							<span *ngIf="list.ticket_type==''"> &mdash; </span>
+						</div>
+						<div>
+							<strong>Date Created : </strong><span>{{list.created_date | date: "dd-MM-yyyy"}}</span>
+						</div>
+						<div *ngIf="list.status==2 || list.status==3 || list.status==4 || list.status==5 " (click)="openModel($event,list.status,list.id)" style="display: inline;">
+							<strong>Status: </strong>
+							<span *ngIf="list.status==2" style="color:green;">Open</span>
+							<span *ngIf="list.status==3" style="color:blue;">In Progress</span>
+							<span *ngIf="list.status==4" style="color:#f79233;">Resolved</span>
+							<span *ngIf="list.status==5" style="color:#f6c342;">On Hold</span>
+						</div>
+						<div (click)="openModel1($event)" *ngIf="list.status==1" style="display: inline;">
+							<strong>Status : </strong>
+							<span style="color:purple;">Closed</span>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<div class="custom-modal_main" *ngIf="modelShowStatusa">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>Change status</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<form action="">
+					<ion-item>
+						<ion-select value="brown" okText="Okay" cancelText="Dismiss" [(ngModel)]="status_change" name="status_change" (ionChange)="userStatus($event.target.value)">
+						 	<ion-select-option value="1">Closed</ion-select-option>
+							<ion-select-option value="2">Open</ion-select-option>
+							<ion-select-option value="3">In Progress</ion-select-option>
+							<ion-select-option value="4">Resolved</ion-select-option>
+							<ion-select-option value="5">On Hold</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<ion-item>
+						<ion-textarea placeholder="Comment..." [(ngModel)]="information" name="information"></ion-textarea>
+					</ion-item>
+					<button class="submit" type="submit" (click)="submitPopup()">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</ion-content>
+<ion-footer>
+	<ion-fab vertical="bottom" horizontal="end"  slot="fixed" (click)="add_ticket()">
+		<ion-fab-button class="edit_btn_container">
+			<ion-icon name="add" class="edit_button"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+</ion-footer>

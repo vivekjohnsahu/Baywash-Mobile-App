@@ -1,0 +1,135 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title *ngIf="edit==undefined" style="text-align: left;">Customer Management</ion-title>
+        <ion-title *ngIf="edit!=undefined" style="text-align: left;">Edit Customer</ion-title>
+        <ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+            <a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+            <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-content>
+    <ion-grid class="no-padding">
+        <ion-row no-padding>
+            <ion-col no-padding>
+                <form novalidate (ngSubmit)="addCustomer()" class="loginFormMargin" [formGroup]="signupUser">
+                <ion-item class="form_container">
+                    <ion-label position="floating">Customer Type</ion-label>
+                    <ion-select no-padding [disabled]="edit=='edit'" [interfaceOptions]="customActionSheetOptions" (ionChange)="change($event.target.value)" name="customer_type" [(ngModel)]="customer_type" >
+                        <ion-select-option [value]="1" [selected]='type==2'>Regular Customer</ion-select-option>
+                        <ion-select-option [value]="2" [selected]='type==1'>Guest User</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item class="form_container">
+                    <ion-label position="floating"style="color:#000;">Society</ion-label>
+                    <ion-input disabled no-padding formControlName="society" [(ngModel)]="userData.society"></ion-input>
+                </ion-item>
+                <ion-item class="form_container">
+                    <ion-label position="floating">First Name</ion-label>
+                    <ion-input no-padding [(ngModel)]="userData.first_name" formControlName="first_name" type="text" required [class.error1]="!signupUser.controls.first_name.valid && signupUser.controls.first_name.dirty" clearInput></ion-input>
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('first_name').hasError('required') ) && signupUser.get('first_name').touched">
+                    <div class="error" *ngIf="signupUser.get('first_name').hasError('required') && signupUser.get('first_name').touched">
+                        First name cannot be blank                                                      
+                    </div>
+                </div>
+                <ion-item class="form_container">
+                    <ion-label position="floating">Last Name</ion-label>
+                    <ion-input no-padding [(ngModel)]="userData.last_name" formControlName="last_name" type="text" required [class.error1]="!signupUser.controls.last_name.valid && signupUser.controls.last_name.dirty" clearInput></ion-input>
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('last_name').hasError('required') ) && signupUser.get('last_name').touched">
+                    <div class="error" *ngIf="signupUser.get('last_name').hasError('required') && signupUser.get('last_name').touched">
+                        Last name cannot be blank
+                    </div>
+                </div>
+                <ion-item class="form_container">
+                     <ion-label position="floating">Email</ion-label>
+                    <ion-input id="UserNameemail" class="inputlowercase" no-padding type="text" [(ngModel)]="userData.email" formControlName="email" [class.error1]="!signupUser.controls.email.valid && signupUser.controls.email.dirty" clearInput required></ion-input>
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('email').hasError('minlength') || signupUser.get('email').hasError('pattern') ||signupUser.get('email').hasError('required') ) && signupUser.get('email').touched">
+                    <div class="error" *ngIf="signupUser.get('email').hasError('required') && signupUser.get('email').touched">
+                        Email cannot be blank.
+                    </div>
+                    <div class="error" *ngIf="signupUser.get('email').hasError('pattern') && signupUser.get('email').touched">
+                        Please enter a valid Email.
+                    </div>
+                </div>
+                <ion-item class="form_container" [hidden]="edit!='edit'">
+                     <ion-label position="floating">Mobile Number</ion-label> 
+                    <ion-input no-padding disabled type="tel" [(ngModel)]="star_phone_no" [ngModelOptions]="{standalone: true}" name="star_phone_no"></ion-input>
+                </ion-item>
+                <ion-item class="form_container" [hidden]="edit=='edit'">
+                     <ion-label position="floating">Mobile Number</ion-label> 
+                    <ion-input maxlength="10" no-padding  (keypress)="numberAccept($event)" type="tel"  [(ngModel)]="userData.phone_no" formControlName="phone_no" [class.error1]="!signupUser.controls.phone_no.valid && signupUser.controls.phone_no.dirty" clearInput required></ion-input>
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('phone_no').hasError('minlength') || signupUser.get('phone_no').hasError('maxlength') ||signupUser.get('phone_no').hasError('required') ) && signupUser.get('phone_no').touched">
+                    <div class="error" *ngIf="signupUser.get('phone_no').hasError('required') && signupUser.get('phone_no').touched">
+                        Mobile number cannot be blank.
+                    </div>
+                    <div class="error" *ngIf="signupUser.get('phone_no').hasError('minlength') && signupUser.get('phone_no').touched">
+                        Mobile number should be aleast 10 numbers.
+                    </div>
+                    <div class="error" *ngIf="signupUser.get('phone_no').hasError('maxlength') && signupUser.get('phone_no').touched">
+                        Mobile number should not more than 10 numbers.
+                    </div>
+                </div>
+                <ion-item class="form_container">
+                    <ion-label position="floating">Flat No.</ion-label>
+                    <ion-input no-padding [(ngModel)]="userData.flat" formControlName="flat" type="text" required [class.error1]="!signupUser.controls.flat.valid && signupUser.controls.flat.dirty" clearInput></ion-input>
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('flat').hasError('required') ) && signupUser.get('flat').touched">
+                    <div class="error" *ngIf="signupUser.get('flat').hasError('required') && signupUser.get('flat').touched">
+                        Flat No.can not be blank
+                    </div>
+                </div>
+                <ion-item class="form_container">
+                    <ion-label position="floating">Tower</ion-label>
+                    <ion-input no-padding [(ngModel)]="userData.tower" formControlName="tower" type="text" required [class.error1]="!signupUser.controls.tower.valid && signupUser.controls.tower.dirty" clearInput></ion-input>
+                    
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('tower').hasError('required') ) && signupUser.get('tower').touched">
+                    <div class="error" *ngIf="signupUser.get('tower').hasError('required') && signupUser.get('tower').touched">
+                        Tower can not be blank
+                    </div>
+                </div>
+                <ion-item class="form_container">
+                    <ion-label position="floating">Permanent Address</ion-label>
+                    <ion-input no-padding [(ngModel)]="userData.address" formControlName="address" type="text" required [class.error1]="!signupUser.controls.address.valid && signupUser.controls.address.dirty" clearInput></ion-input>
+                   
+                </ion-item>
+                <div class="error_cls" *ngIf="( signupUser.get('address').hasError('required') ) && signupUser.get('address').touched">
+                    <div class="error" *ngIf="signupUser.get('address').hasError('required') && signupUser.get('address').touched">
+                        Permanent location can not be blank.
+                    </div>
+                </div>
+                <div class="parmnt_add">
+                    <div class="same_as_prmnt">
+                        <ion-item style="--border-color: #fff;">
+                            <ion-label class="address_check">Same as permanent address.</ion-label>
+                            <ion-checkbox style="margin: 0 5px;--border-color: #22bddf;width: 15px;height: 15px;" mode="md" slot="start" (click)="changed()" class="pepperoni_"></ion-checkbox>
+                        </ion-item>
+                    </div>
+                    <ion-item class="form_container" style="margin-top:0;">
+                        <ion-label position="floating">Billing Address</ion-label>
+                        <ion-input no-padding (keyup)="error_hide_billing()" placeholder="Enter Billing Address" [(ngModel)]="userData.billing_address" formControlName="billing_address" type="text"></ion-input>
+                    </ion-item>
+                    <div class="error_cls" *ngIf="billing_address_error">
+                        <div class="error">
+                            Billing Address can not be blank.
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div class="sign_in_button">
+                        <button shape="round" type="submit" [disabled]="signupUser.invalid" >Save</button>
+                    </div>
+                </div>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

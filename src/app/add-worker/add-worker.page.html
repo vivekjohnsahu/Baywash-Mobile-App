@@ -1,0 +1,130 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+          Add Worker
+      </ion-title>
+      <ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+        <a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+        <ion-badge id="cart-badge">7</ion-badge>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+  	<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+	<ion-grid>
+		<ion-row no-padding>
+		<form action="" (ngSubmit)="addWorker()" [formGroup]="addWorkerData">
+          	<ion-item>
+              <ion-input no-padding  placeholder="First Name" type="text" [(ngModel)]="worker.firstname" [class.error1]="!addWorkerData.controls.firstname.valid && addWorkerData.controls.firstname.dirty"  formControlName="firstname" required clearInput ></ion-input>		
+			</ion-item>
+			<div class="error_cls" *ngIf="( addWorkerData.get('firstname').hasError('required') ) && addWorkerData.get('firstname').touched">
+				<div class="error" *ngIf="addWorkerData.get('firstname').hasError('required') && addWorkerData.get('firstname').touched">
+					First name cannot be blank
+				</div>
+			</div>	
+      <ion-item>
+        <ion-input no-padding  placeholder="Last Name" [(ngModel)]="worker.lastname"  formControlName="lastname" type="text" clearInput ></ion-input>			
+      </ion-item>	
+
+      <ion-item>
+          <ion-input no-padding  placeholder="Email Address" type="email" [(ngModel)]="worker.email" [class.error1]="!addWorkerData.controls.firstname.valid && addWorkerData.controls.firstname.dirty" required formControlName="email" [class.error1]="!addWorkerData.controls.email.valid && addWorkerData.controls.email.dirty" required></ion-input>
+        </ion-item>	
+        <div class="error_cls" *ngIf="( addWorkerData.get('email').hasError('minlength') || addWorkerData.get('email').hasError('pattern') ||addWorkerData.get('email').hasError('required') ) && addWorkerData.get('email').touched">
+            <div class="error" *ngIf="addWorkerData.get('email').hasError('required') && addWorkerData.get('email').touched">
+                Email ID cannot be blank
+            </div>
+            <div class="error" *ngIf="addWorkerData.get('email').hasError('pattern') && addWorkerData.get('email').touched">
+                Please enter a valid Email ID
+            </div>
+        </div>
+
+          <ion-item>
+            <ion-input no-padding  placeholder="Phone Number" type="num" [(ngModel)]="worker.number" [class.error1]="!addWorkerData.controls.number.valid && addWorkerData.controls.number.dirty" formControlName="number" required clearInput ></ion-input>			
+          </ion-item>
+          <div class="error_cls" *ngIf="( addWorkerData.get('number').hasError('minlength') || addWorkerData.get('number').hasError('maxlength') ||addWorkerData.get('number').hasError('required') ) && addWorkerData.get('number').touched">
+              <div class="error" *ngIf="addWorkerData.get('number').hasError('required') && addWorkerData.get('number').touched">
+                  Number cannot be blank
+              </div>
+              <div class="error" *ngIf="addWorkerData.get('number').hasError('minlength') && addWorkerData.get('number').touched">
+                  Minimum 8 characters
+              </div>
+              <div class="error" *ngIf="addWorkerData.get('number').hasError('maxlength') && addWorkerData.get('number').touched">
+                  Maximum 15 characters
+              </div>
+          </div>
+            <ion-item style="padding: 5px 5px 5px 5px;">
+              <ion-label>Supervisor</ion-label>
+              <ion-select [interfaceOptions]="customActionSheetOptions" formControlName="supervisor"  [(ngModel)]="worker.supervisor" [class.error1]="!addWorkerData.controls.supervisor.valid && addWorkerData.controls.supervisor.dirty" required interface="action-sheet">
+                <ion-select-option *ngFor="let supervisor of supervisor_list" [value]="supervisor.first_name">{{supervisor.first_name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="error_cls" *ngIf="( addWorkerData.get('supervisor').hasError('required') ) && addWorkerData.get('supervisor').touched">
+                <div class="error" *ngIf="addWorkerData.get('supervisor').hasError('required') && addWorkerData.get('supervisor').touched">
+                  Select supervisor
+                </div>
+              </div>	
+            <ion-item style="padding: 5px 5px 5px 5px;">
+              <ion-label>Society</ion-label>
+              <ion-select [interfaceOptions]="customActionSheetOptions" [interfaceOptions]="customActionSheetOptions" formControlName="society"  [(ngModel)]="worker.society" [class.error1]="!addWorkerData.controls.society.valid && addWorkerData.controls.society.dirty" required interface="action-sheet">
+                <ion-select-option *ngFor="let scty of society">{{scty.society_name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="error_cls" *ngIf="( addWorkerData.get('society').hasError('required') ) && addWorkerData.get('society').touched">
+                <div class="error" *ngIf="addWorkerData.get('society').hasError('required') && addWorkerData.get('society').touched">
+                  Select society
+                </div>
+              </div>	
+            <ion-item style="padding: 5px 5px 5px 5px;">
+                <ion-label>Joining date</ion-label>
+                <ion-item no-padding>
+                    <ion-datetime [(ngModel)]="worker.date" formControlName="date" [class.error1]="!addWorkerData.controls.date.valid && addWorkerData.controls.date.dirty" no-padding displayFormat="DD/MM/YY"></ion-datetime>
+                </ion-item>
+            </ion-item>
+            <div class="error error_cls" *ngIf="addWorkerData.get('date').hasError('required') && addWorkerData.get('date').touched">
+                Date cannot be blank
+            </div>
+            <ion-item>
+              <ion-input no-padding  placeholder="Qualification" [(ngModel)]="worker.Qualification" formControlName="Qualification" [class.error1]="!addWorkerData.controls.Qualification.valid && addWorkerData.controls.Qualification.dirty" type="text" required clearInput ></ion-input>			
+            </ion-item>
+            <div class="error error_cls" *ngIf="addWorkerData.get('Qualification').hasError('required') && addWorkerData.get('Qualification').touched">
+                Qualification name cannot be blank
+              </div>
+            <ion-item style="padding: 12px 5px 18px 5px;">
+              <ion-input no-padding  placeholder="Current Salary" [(ngModel)]="worker.salary" formControlName="salary" [class.error1]="!addWorkerData.controls.salary.valid && addWorkerData.controls.salary.dirty" type="num" required clearInput ></ion-input>			
+            </ion-item>
+            <div class="error error_cls" *ngIf="addWorkerData.get('salary').hasError('required') && addWorkerData.get('salary').touched">
+                Current salary cannot be blank
+              </div>
+            <div class="document_upload">
+                <h4>Upload Documents</h4>
+                <div>
+                  <span style="font-size: 13px;color: #9a9999;margin-left: 5px;"> jpg, pdf, word file</span>
+                  <label for="browse">Choose file</label>
+                  <input type="file" [(ngModel)]="worker.documents" formControlName="documents" value="" id="browse"/>
+                </div>
+            </div>
+            <ion-col class="input_border">
+              <ion-label>Permanent Address</ion-label>
+              <ion-input no-padding type="text" required [(ngModel)]="worker.permanent_address" formControlName="permanent_address" [class.error1]="!addWorkerData.controls.permanent_address.valid && addWorkerData.controls.permanent_address.dirty" required clearInput></ion-input>			
+              <div class="error error_cls" *ngIf="addWorkerData.get('permanent_address').hasError('required') && addWorkerData.get('permanent_address').touched">
+                  Permanent address cannot be blank
+                </div>
+            </ion-col>
+            
+            <ion-col class="input_border">
+              <ion-label>Current Address</ion-label>
+              <ion-input no-padding type="text" required [(ngModel)]="worker.current_address" formControlName="current_address" [class.error1]="!addWorkerData.controls.current_address.valid && addWorkerData.controls.current_address.dirty" required clearInput></ion-input>			
+              <div class="error error_cls" *ngIf="addWorkerData.get('current_address').hasError('required') && addWorkerData.get('current_address').touched">
+                  Current address cannot be blank
+                </div>
+            </ion-col>
+            <div class="sign_in_button">
+              <button shape="round" [disabled]="addWorkerData.invalid" type="submit">Submit</button>
+            </div>
+			</form>
+		</ion-row>
+	</ion-grid>
+</ion-content>

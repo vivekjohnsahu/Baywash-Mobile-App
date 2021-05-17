@@ -1,0 +1,38 @@
+<ion-content>
+	<ion-toolbar>
+		<ion-buttons slot="start"></ion-buttons>
+		<ion-title>Notifications</ion-title>
+		<ion-icon name="close" slot="end" (click)="closeModel()" class="close_btn"></ion-icon>
+	</ion-toolbar>    
+	<ion-grid no-padding> 
+		<ion-row no-padding>
+			<ion-col no-padding size="12" class="notifictaion_div" *ngFor="let text of noti_text" [hidden]='skeleton==1 || skeleton==3'> 
+				<div class="main" (click)="ticketView(text.ticket_id,text.notification_type)">
+					<ion-text>
+						<span>{{text.content}}</span>
+					</ion-text>
+					<ion-text color="light" class="min">
+						<p style="color: #b6b4b4;">
+							{{text.hours}}
+						</p>
+					</ion-text>
+				</div>
+			</ion-col>
+			<ion-col no-padding size="12" class="notifictaion_div" *ngFor="let text of [1,2,3,4,5]" [hidden]='skeleton==2 || skeleton==3'> 
+				<div class="main">
+					<ion-text>
+						<ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+					</ion-text>
+					<ion-text color="light" class="min">
+						<p style="color: #b6b4b4;">
+							<ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+						</p>
+					</ion-text>
+				</div>
+			</ion-col>
+			<ion-col class="no_data" [hidden]="skeleton==2 || skeleton==1" size="12">
+				<p>No Ticket Found</p>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,278 @@
+.search_icon_container img {
+    width: 18px;
+    position: relative;
+    left: -5px;
+}
+a.search_icon {
+    padding: 0px 6px;
+}
+#cart-badge {
+    height: 16px;
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    width: 16px;
+    font-size: 10px;
+    padding: 4px 6px;
+    line-height: 9px;
+    border-radius: 50%;
+    background: #39b449;
+    font-size: 10px;
+}
+ion-title{
+    text-align: left;
+}
+.main_container{
+    width: 100%;
+    padding-bottom: 12px;
+}
+.text_container{
+    width: 60%;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 1.6 !important;
+}
+.text_container span{
+    color: #9a9999;
+}
+.new_add{
+    font-size: 13px;
+    line-height: 1.6 !important;
+}
+.new_add>span{
+    color: #9a9999;
+}
+.main_container_text{
+   padding: 0 0 0 5px;
+   margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 8px 10px 0px #f1eded;
+    border-left-color: 0deg, #39b449 0%, #31cbed 100%;
+    background: linear-gradient(to bottom, #39b449 , #31cbed );
+    line-height: 0px;
+}
+ion-row{
+    padding: 10px 10px 10px 10px;
+}
+.left_line{
+    text-transform: capitalize;
+    padding: 10px 10px 10px 20px;
+    background-color: white;
+}
+.btn_container{
+    width: 40%;
+    display: inline-block;
+    // vertical-align: bottom;
+    text-align: right;
+}
+.btn_container_active{
+    display: inline-block;
+    width: 35%;
+    border: solid 1px #22bddf;
+    border-radius: 15px;
+    float: right;
+}
+.btn_container_active ion-select{
+    padding: 3px 10px 3px 10px;
+    font-size: 14px;
+}
+// .checkbox_lable{
+//     display: inline-block;
+//     vertical-align: sub;
+//     font-size: 14px;
+// }
+// .checkbox_lable{
+//     display: inline-block;
+//     width: 100%;
+//     margin-left: 20px;
+// }
+.checkbox_lable{
+    display: inline-block;
+    width: 100%;
+    margin-left: 0px !important;
+    margin-bottom: 20px;
+    vertical-align: sub;
+    font-size: 14px;
+}
+.my-add-class2{
+    color: #cdcdcd!important;
+}
+.radio1{
+    margin-right: 15px;
+}
+.footer{
+    font-size: 13px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: linear-gradient(to bottom, #39b449, #31cbed);
+    color: white;
+    letter-spacing: 0.5px;
+    display: flex;
+}
+.footer>div{
+    display: inline-block;
+    width: 25%;
+    border-right: solid 1px
+}
+.footer>div>span{
+    display: block;
+}
+.footer>div>span>img{
+    margin-bottom: 5px;
+    width: 25%
+}
+.custom-modal_main{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0 ,0, 0.4);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    opacity: 1;
+    visibility: visible;
+    transition: all ease-in-out 0.35s;
+    .popup-box{
+        width: 90%;
+        background: #fff;
+        border-radius: 10px;
+        .popup-header{
+            position: relative;
+            padding: 10px;
+            text-align:center;
+            p{
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                margin-top: 22px;
+            }
+            a{
+                position: absolute;
+                right: 4px;
+                top: 30%;
+                transform: translateY(-50%);
+                font-size: 2em;
+                line-height: 0;
+            }
+        }
+        .popup-body{
+            padding: 10px 20px 10px 20px;
+            ion-item{
+                --padding-start: 0;
+                --border-color: #fff;
+                border: 1px solid #2dcdda;
+                margin-bottom: 15px;
+                border-radius: 5px;
+                overflow: hidden;
+                ion-select{
+                    width: 100%;
+                    max-width: 100%;
+                }
+                ion-textarea{
+                    --padding-start: 10px;
+                    --padding-top: 2px;
+                    margin-top: 5px;
+                }
+            }
+            button.submit{
+                display: block;
+                margin: 20px auto 0;
+                padding: 12px 44px;
+                background: linear-gradient(45deg, #31cbed, #10dc60);
+                border-radius: 30px;
+                color: #fff;
+                outline: none;
+            }
+        }
+    }
+}
+.icon_check{
+    color: white !important;
+    background: green;
+    font-size: 12px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 1px 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50px;
+    display: none;
+}
+.icon_check2{
+    color: white!important;
+    background: red;
+    font-size: 12px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 1px 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50px;
+    display: block;
+
+}
+.cla_gray{
+    color: white!important;
+    background:gray;
+    font-size: 12px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 1px 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50px;
+    display: block;
+}
+.cla_gray2{
+    color: white!important;
+    background:gray;
+    font-size: 12px;
+    margin-left: 10px;
+    text-align: center;
+    padding: 1px 0px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50px;
+    display: none;
+}
+.icon_check>i{
+    font-size: small!important;
+    font-weight: bold;
+}
+.chek_class{
+    display:none!important
+}
+.chek_class2{
+    display: block!important;
+}
+.icon_check2>i{
+    font-weight: bold;
+}
+.addTop{
+    display: block;
+}
+.removeTop{
+    display: none;
+}
+label {
+    margin-bottom: 0!important;
+}
+.my-add-class3{
+    width: 100%!important;
+}
+.done{
+    font-weight: bold;
+    color: green!important;
+}
+.not_done{
+    font-weight: bold;
+    color: red!important;
+}
+
+
+

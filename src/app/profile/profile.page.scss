@@ -1,0 +1,193 @@
+// ion-toolbar{
+//     --background: #1e3857; 
+//   }
+  ion-title{
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    height: 100%;
+  }
+    .profile_img{
+        background: #22bddf;
+        text-align: center;
+        position: relative;
+        height: 125px;
+        margin-bottom: 72px;
+        z-index: 10;
+        // box-shadow: 0px -6px 1px 1px #1e3857;
+    }
+    .profile_img > div{
+      position: absolute;
+      top: 0;
+      left: calc(50% - 45px);
+      top: calc(100% - 45px);
+      // border: 2px solid #e5e9ed;
+      // border-radius: 50%;
+    }
+    .profile_img > div > ion-avatar{
+      width: 100px;
+    height: 100px;
+    }
+    .profile_name{
+      margin-top: 60px;
+      text-align: center;
+    }
+    .profile_name > ion-text{
+      font-size: 18px;
+      color: #1f1f1f;
+      font-weight: 500
+    }
+    .back_btn>span:nth-child(1){
+        width: 8%;
+    }
+    .back_btn>span:nth-child(2){
+        width: 92%;
+        color: white;
+        font-size: 18px;
+        left: 5px;
+    }
+    .details{
+      padding: 20px 10px;
+    }
+    .details .text{
+      width: 70%;
+      display: inline-block;
+    }
+    .details .text > ion-text{
+      font-size: 19px;
+      font-weight: 600;
+      font-family: AvenirNextLTPro-Regular;
+    }
+    .details .edit{
+      width: 30%;
+      display: inline-block;
+      text-align: right;
+      vertical-align: middle;
+    }
+    .details .edit > ion-text{
+      font-size: 16px;
+      text-transform: capitalize;
+      color: #01abe9;
+    }
+    .main_container .profile_bg{
+        border-bottom: solid #ccc 2px;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+    .main_container .profile_bg > .value{
+        color: #8a8c8f;
+        padding-top: 6px;
+        font-size: 18px;
+    }
+    .main_container .profile_bg > .type > ion-text,  .main_container .profile_bg > .value > ion-text{
+        font-weight: 500;
+        font-family: none;
+        padding-top: 26px;
+    }
+    .main_container .profile_bg > .type > ion-text{
+        font-size: 16px;
+    }
+    .main_container .profile_bg > .type{
+        padding-top: 12px;
+    }
+    .main_container .profile_bg > .type > img,  .main_container .profile_bg > .value > img{
+      width:22px;
+    }
+    .masterplan_card > ion-card{
+      margin-top: 25px;
+      border-radius: 20px;
+      width: 90%;
+      margin: 25px auto;
+      box-shadow: none;
+      border: 1px solid #e6e6e6;
+    }
+    .masterplan_card > ion-card > ion-card-header{
+      background: #2b4669;
+      color: #fff;
+    }
+    .masterplan_card > ion-card > ion-card-header > ion-card-title{
+      color: #fff;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+    }
+    .masterplan_card > ion-card > ion-card-content{
+      padding:0px;
+    }
+    .masterplan_card > ion-card > ion-card-content > .image{
+      margin: 20px;
+    }
+    .masterplan_card > ion-card > ion-card-content > .image > img{
+      width: auto;
+      margin: 0 auto;
+    }
+    .masterplan_card > ion-card > ion-card-content > .amt{
+      text-align: center;
+    }
+    .masterplan_card > ion-card > ion-card-content > .amt > img{
+      width: auto;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .masterplan_card > ion-card > ion-card-content > .amt > ion-text{
+      margin-left: 10px;
+      font-size: 20px;
+      vertical-align: middle;
+      font-weight: 500;
+      color: #1f1f1f;
+    }
+    .masterplan_card > ion-card > ion-card-content > .expiry{
+      margin: 10px 0px;
+      border-bottom: 1px solid #e6e6e6;
+      text-align: center;
+    }
+    .masterplan_card > ion-card > ion-card-content > .expiry > ion-text{
+      text-align: center;
+      color: rgba(31, 31, 31, 0.5);
+      font-size: 16px;
+    }
+    .masterplan_card > ion-card > ion-card-content > .about_plan{
+      padding: 10px;
+    }
+    .masterplan_card > ion-card > ion-card-content > .about_plan > ion-text{
+      font-size: 15px;
+      line-height: 24px;
+    }
+    .renew_btn{
+      padding: 20px 10px 10px 10px;
+      text-align: center;
+    }
+    .renew_btn > ion-button{
+      --background: linear-gradient(to right, #00a8e6, #0088c4);
+    }
+    // .em{
+    //   margin-left: 0px !important;
+    // }
+    .bottom_category{
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+    
+    .bottom_category span{
+      display: inline-block;
+      width: calc(100% - 20px);
+    }
+    .bottom_category_div{
+      display: inline-block;
+      background-color: #dddddd;
+      padding: 12px;
+      width: 33%;
+      margin-right: 1px;
+    }
+    @media only screen and (max-width: 320px) {
+      .bottom_category{
+        font-size: 10px;
+      }
+    }
+    .padding_set{
+        padding: 0px 35px 10px 35px;
+    }

@@ -1,0 +1,91 @@
+<ion-content no-padding>
+	<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+	<ion-grid>
+		<ion-row>
+			<ion-col size="12" no-padding>
+				<div class="shape text-center">
+					<div class="logo_img">
+						<img src="assets/images/logo.png" title="logo" alt="logo"/>
+					</div>
+					<p>Login</p>
+				</div>
+			</ion-col> 
+		</ion-row>
+	</ion-grid>  
+	<form novalidate (ngSubmit)="login()" class="loginFormMargin" [formGroup]="signupform">
+		<ion-grid>
+			<ion-row class="mt-20">
+				<ion-col size="12" class="form_container mb-20">
+					<!--<ion-label position="stacked">Email</ion-label>-->
+					<div class="border1">
+						<div class="abs_icon"><img src="assets/images/sidemenu/icon/email.png"></div>
+						<input class="input1 addcls1" (change)="user()" (keyup)="Capitalizelowercase($event.target.value)" (click)="clickEmail()" no-padding id="UserName" placeholder="Email" type="text" required [(ngModel)]="LoginData.email" formControlName="email" [class.error1]="!signupform.controls.email.valid && signupform.controls.email.dirty" clearInput />
+					</div>
+					<div class="error_cls" *ngIf="(signupform.get('email').hasError('minlength') || signupform.get('email').hasError('pattern') ||signupform.get('email').hasError('required') ) && signupform.get('email').touched">
+						<div class="error" *ngIf="signupform.get('email').hasError('required') && signupform.get('email').touched">
+							Please enter valid Email
+						</div>
+						<div class="error" *ngIf="signupform.get('email').hasError('pattern') && signupform.get('email').touched">
+							Please enter valid Email
+						</div>
+					</div>
+					<div class="error_cls" *ngIf="email_msg_hide">
+						<div class="error">
+						Please enter valid Email
+						</div>
+					</div>
+				</ion-col>
+				<ion-col size="12" class="form_container mb-20">
+					<!-- <ion-label position="stacked">Password</ion-label> -->
+					<div class="border1">
+						<div class="abs_icon"><img src="assets/images/sidemenu/icon/password.png"></div>
+						<input class="input1 addcls2" id="passs" (keyup)="Capitalizelowercase1($event.target.value)"  (click)="clickPass()" no-padding placeholder="Password" type="password" required [(ngModel)]="LoginData.password" formControlName="password" [class.error1]="!signupform.controls.password.valid && signupform.controls.password.dirty" clearInput />
+					</div>
+					<div class="error_cls" *ngIf="( signupform.get('password').hasError('minlength') || signupform.get('password').hasError('maxlength') ||signupform.get('password').hasError('required') ) && signupform.get('password').touched">
+						<div class="error" *ngIf="signupform.get('password').hasError('required') && signupform.get('password').touched">
+							Please enter valid Password
+						</div>
+						<div class="error" *ngIf="signupform.get('password').hasError('minlength') && signupform.get('password').touched">
+							Please enter valid Password
+						</div>
+					</div>
+					<div class="error_cls" *ngIf="password_msg_hide">
+						<div class="error">
+							Please enter valid Password
+						</div>
+					</div>
+				</ion-col>
+				<ion-col size="12" class="form_container mb-20">
+					<div class="border1">
+						<div class="abs_icon"><img src="assets/images/sidemenu/society-icon.png"></div>
+						<ion-select (click)="clickSociety()" [interfaceOptions]="customActionSheetOptions" (ionChange)="society_select($event.target.value)"  interface="action" placeholder="Select Society" formControlName="Society" style="margin-left: 32px;" [(ngModel)]="LoginData.Society" [class.error1]="!signupform.controls.Society.valid && signupform.controls.Society.dirty" >
+							<ion-select-option *ngFor="let society_name of society_list" value="{{society_name.id}}">{{society_name.society_name}}</ion-select-option>
+						</ion-select>
+					<!-- <input type="text" style="text-transform: capitalize!important;" class="input1 addcls2" placeholder="Select Society" (focus)="openSelectBox()" (click)="openSelectBox()" [(ngModel)]="LoginData.Society" [class.error1]="!signupform.controls.Society.valid && signupform.controls.Society.dirty" formControlName="Society" >
+					<div class="selec_society_div"  [hidden]='hideShowDropDown'>
+						<ul class="selec_society">
+							<li *ngFor="let society_name of society_list" (click)="society_select($event.target.value,society_name.society_name)" value="{{society_name.id}}">{{society_name.society_name}}</li>
+						</ul>
+					</div> -->
+					</div>
+					<div class="error error_cls" *ngIf="signupform.get('Society').hasError('required') && signupform.get('Society').touched">
+						Select atleast one society.
+					</div>
+					<div class="error_cls" *ngIf="society_msg_hide">
+						<div class="error">
+							{{message}}
+						</div>
+					</div>	
+				</ion-col>
+				<ion-col size="12" class="form_container mb-20" style="margin-top: 10px;">
+					<span class="forgot_pass">
+						<a (click)="forgotPasswordPage()">Forgot Password?</a>
+					</span>
+				</ion-col>
+				<ion-col size="12" class="sign_in_button">
+					<button shape="round" type="submit" [disabled]="signupform.invalid">Log In</button>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+    </form>
+</ion-content>

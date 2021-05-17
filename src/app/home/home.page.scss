@@ -1,0 +1,131 @@
+.welcome-card ion-img {
+  max-height: 35vh;
+  overflow: hidden;
+}
+.search_icon_container img {
+  width: 18px;
+  position: relative;
+  left: -5px;
+}
+.text-center{
+  min-height: 100%;
+}
+ion-title{
+  -webkit-padding-start: 50px;
+    padding-inline-start: 50px;
+    -webkit-padding-end: 50px;
+     padding-inline-end: 50px;
+}
+.title>span:nth-child(1){
+  float: left;
+}
+.title>span:nth-child(2){
+  position: relative;
+    right: 15px;
+    letter-spacing: 0.1px;
+}
+a.search_icon {
+  padding: 0px 6px;
+}
+#cart-badge {
+  height: 16px;
+  position: absolute;
+  top: -2px;
+  right: 3px;
+  width: 16px;
+  font-size: 10px;
+  padding: 4px 6px;
+  line-height: 9px;
+  border-radius: 50%;
+  background: #39b449;
+  font-size: 10px;
+}
+.swiper-slide img {
+  width: auto;
+  max-width: 96%;
+  height: auto;
+  max-height: 100%;
+  border-radius: 15px;
+  margin-top: 5px;
+  // margin-bottom: 10px;
+}
+.management_tab {
+  background-image: linear-gradient( -119deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+  background-image: -moz-linear-gradient( -119deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+  background-image: -webkit-linear-gradient( -119deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+  background-image: -ms-linear-gradient( -119deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+  box-shadow: 0px 0px 10.34px 0.66px rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  padding: 8px 0px;
+}
+.tab_img img{
+  width: 25%;
+  margin: 0 auto;
+}
+.tab_img{
+  min-height: 70px;
+  display: flex;
+  align-items: flex-end;
+}
+.tab_text p{
+  margin: 15px 0;
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+// Exit popup css start
+.modal-body p{
+  text-align: center;
+  font-size: 14px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  letter-spacing: 0.5px;
+  margin-top: 30px;
+}
+.modal-body p:nth-child(3){
+  color: #1a5c8c; 
+}
+fieldset, label { 
+  margin: 0; padding: 0; 
+}
+.modal-content{
+  margin: 0 auto;
+  width: 60% !important;
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #888;
+  transform: translateY(100%);
+  border-radius: 12px !important;
+}
+.modal {
+  display: block !important;
+}
+.book_button > button:focus{
+  outline:none;
+}
+.book_button > button{
+  letter-spacing: 0.5px;
+  font-size: 18px;
+  width: 50%;
+  padding: 8px;
+  margin-top: 0px;
+  margin-bottom: 12px;
+  color: #fff;
+  box-shadow: 0px 4px 8px 1px #85abc5;
+  border-radius: 30px;
+  background: #1a5c8c;
+  background-image: linear-gradient(90deg, rgb(57, 180, 73) 0%, rgba(49, 203, 237, 0.48) 100%);
+}
+.close {
+  float: right;
+  font-size: 30px!important;
+  font-weight: 700;
+  line-height: 1;
+  color: #22bddf!important;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 1.5;
+}
+// Exit popup css end

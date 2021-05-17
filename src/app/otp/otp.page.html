@@ -1,0 +1,37 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-content>
+  <ion-toolbar>
+		<div class="back_btn">
+		  <span (click)="forgotPasswordPage()"><img src="assets/images/icon/back-button.png"></span>
+		</div>
+	  </ion-toolbar>
+    <ion-text>
+      <h1 class="heading_text">Enter OTP</h1>
+    </ion-text>
+    <ion-text class="signin_text">
+      <p>Verification Code</p>
+      <p>Please type the verification code sent</p>
+      <p>to {{email}}</p>
+    </ion-text>
+    <form novalidate>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" class="form_container">
+            <div id="divOuter">
+              <div id="divInner">
+                <ion-input no-padding id="partitioned" maxlength="4" type="tel" required [(ngModel)]="get_otp" name="get_otp"></ion-input>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col size="12" class="sign_in_button">
+            <button shape="round" (click)="otp_submit()">Submit</button>
+          </ion-col>
+          <ion-col size="12" class="receive">
+            <div>Didn't Receive the OTP?</div>
+            <div (click)="resend_otp()">Resend Code</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+</ion-content>
+  

@@ -1,0 +1,286 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color ="#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" [hidden]="morecar=='morecar'">
+            <ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-buttons [hidden]="morecar!='morecar'" slot="start"><span style="text-align:center;width:48px;" (click)="backPage()"><img style="width:16px;" src="assets/images/icon/back-button.png"></span></ion-buttons>
+        <ion-title>
+           <span *ngIf="edit==undefined"> Add Car</span>
+           <span *ngIf="edit=='edit'"> Edit Car</span>
+            <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+        </ion-title>
+        <ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+            <a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+            <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content >
+    <ion-grid>
+        <ion-row id="TopPage">
+            <form action="" [formGroup]="add_car" (ngSubmit)="addCar()"  *ngIf='regular_customer=="1"'>
+				<span>Customer : <span style="text-transform: capitalize;color: #454545;">{{customer_name}}</span></span>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Registration No.</ion-label>
+					<ion-input style="text-transform: uppercase;" no-padding type="text" required clearInput [(ngModel)]="carData.register_no" formControlName="register_no" [class.error1]="!add_car.controls.register_no.valid && add_car.controls.register_no.dirty"></ion-input>			
+				</ion-item>
+				<div class="error_cls" *ngIf="( add_car.get('register_no').hasError('required') ) && add_car.get('register_no').touched">
+					<div class="error" *ngIf="add_car.get('register_no').hasError('required') && add_car.get('register_no').touched">
+						Car Registration no cannot be blank.
+					</div>
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Company </ion-label>
+					<ion-select [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCar(carData.company)" interface="action" required formControlName="company" [(ngModel)]="carData.company" [class.error1]="!add_car.controls.company.valid && add_car.controls.company.dirty" >
+						<ion-select-option *ngFor="let list of car_company_list" [value]="list.company">{{list?.company}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<!-- <div class="error error_cls" *ngIf="add_car.get('company').hasError('required') && add_car.get('company').touched">
+					Select Car Company.
+				</div> -->
+				<div *ngIf="Model_hide">
+					<ion-item size="12" class="col form_container" no-padding>
+						<ion-label position="floating">Car Model</ion-label>
+						<ion-select [interfaceOptions]="customActionSheetOptions" (ionChange)="selectModel($event.target.value)" interface="action" required formControlName="model" [(ngModel)]="carData.model" [class.error1]="!add_car.controls.model.valid && add_car.controls.model.dirty">
+							<ion-select-option *ngFor="let list of car_model_list" [value]="list.id">{{list?.model}}</ion-select-option>
+						</ion-select>
+					</ion-item>
+					<!-- <div class="error error_cls" *ngIf="add_car.get('model').hasError('required') && add_car.get('model').touched">
+						Select Car Model.
+					</div> -->
+				</div>
+				<ion-item size="12" class="col form_container" no-padding >
+					<ion-label style="opacity: 1;" position="floating">Car Type</ion-label>
+					<ion-select *ngIf="disable_car_type" [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCarType($event.target.value)" interface="action" required formControlName="car_type" [(ngModel)]="carData.car_type" [class.error1]="!add_car.controls.car_type.valid && add_car.controls.car_type.dirty">
+						<ion-select-option *ngFor="let list of car_type_list" [value]="list.id">{{list?.car_type_name}}</ion-select-option>
+					</ion-select>
+					<ion-select disabled *ngIf="!disable_car_type" [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCarType($event.target.value)" interface="action" required formControlName="car_type" [(ngModel)]="carData.car_type" [class.error1]="!add_car.controls.car_type.valid && add_car.controls.car_type.dirty">
+						<ion-select-option *ngFor="let list of car_type_list" [value]="list.id">{{list?.car_type_name}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<div>
+					<ion-item size="12" class="col form_container" no-padding *ngIf="Service_hide" >
+						<ion-label position="floating">Service Plan</ion-label>
+						<ion-select [disabled]="edit=='edit'" [interfaceOptions]="customActionSheetOptions" (ionChange)="servicePlan()" interface="action" required formControlName="service_plan" [(ngModel)]="carData.service_plan" [class.error1]="!add_car.controls.service_plan.valid && add_car.controls.service_plan.dirty">
+							<ion-select-option *ngFor="let list of service_plan_list" [value]="list.id">{{list?.plan_title}}</ion-select-option>
+						</ion-select>
+					</ion-item>
+				</div>
+				<div>
+					<div *ngIf="Plan_Provided_hide">
+						<ion-item size="12" class="col form_container" no-padding>
+							<ion-label position="floating">Plan Provided</ion-label>
+							<ion-input no-padding  disabled [(ngModel)]="carData.Plan_Provided" formControlName="Plan_Provided"></ion-input>			
+						</ion-item>
+						<div id="element1"  *ngIf="provideServicesPlanList?.frequency[1]==2 || provideServicesPlanList?.frequency[1]==1">
+							<ion-item size="12" class="col form_container" no-padding>
+								<ion-label position="floating">Select Weekly Service days</ion-label>
+								<ion-select (click)="weekly_Service_error_Fnc()" multiple="true" cancelText="Cancel" okText="Done" (ionChange)="daysServicefns($event.target.value)" name="weekly_service" [(ngModel)]="weekly_service" [interfaceOptions]="{cssClass: 'my-class'}">
+									<ion-select-option *ngFor="let list of day_list_new; let i = index" [value]="list.hide_day" [selected]='weekly_service.includes(list.hide_day)' >{{list.day_name}}</ion-select-option>
+								</ion-select>
+							</ion-item>
+							<div class="error error_cls" *ngIf="weekly_Service_error">
+								Weekly days can not be empty.
+							</div>
+							<div class="error error_cls" *ngIf="weekly_service_error_cndtion">
+								You can't select more than  {{provideServicesPlanList.Weekly}}  week day. Kindly change frequency.
+							</div>
+						</div>
+						<div id="element2" *ngIf="provideServicesPlanList?.frequency[1]==3 || provideServicesPlanList?.frequency[2]==3">
+							<ion-item size="12" class="col form_container" no-padding >
+								<ion-label position="floating">Select Monthly Service date</ion-label>
+								<ion-select (click)="Monthly_Service_error_Fnc()" multiple="true" cancelText="Cancel" okText="Done" (ionChange)="monthlyServicefns($event.target.value)" name="monthly_service" [(ngModel)]="monthly_service">
+									<ion-select-option *ngFor="let list of day_count_no" [value]="list" [selected]='monthly_service.includes(list)'>{{list}}</ion-select-option>
+								</ion-select>
+							</ion-item>
+							<div class="error error_cls" *ngIf="Monthly_Service_error">
+								Monthly date can not be empty.
+							</div>
+							<div class="error error_cls" *ngIf="Monthly_Service_error_cndtion">
+								You can't select more than {{provideServicesPlanList.Monthly}} month day. Kindly change frequency.
+							</div>
+						</div>
+					</div>
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Start Service Date</ion-label>
+					<ion-input style="text-transform: uppercase;" formControlName="service_start_date" value="" [disabled]="edit=='edit'" clearInput required [(ngModel)]="carData.service_start_date" type="date" [class.error1]="!add_car.controls.service_start_date.valid && add_car.controls.service_start_date.dirty"></ion-input>
+					<!-- <ion-datetime displayFormat="YYYY-MM-DD" [disabled]="edit=='edit'" value="null" pickerFormat="YYYY-MM-DD" required formControlName="service_start_date" [(ngModel)]="carData.service_start_date" [class.error1]="!add_car.controls.service_start_date.valid && add_car.controls.service_start_date.dirty"></ion-datetime> -->
+				</ion-item>
+				<div class="error error_cls" *ngIf="add_car.get('service_start_date').hasError('required') && add_car.get('service_start_date').touched">
+					Select Service Date.
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating" class="star_not">Select Worker</ion-label>
+					<ion-select [interfaceOptions]="customActionSheetOptions" interface="action" formControlName="select_worker" [(ngModel)]="carData.select_worker">
+					<ion-select-option *ngFor="let list of worker_list" [value]="list.worker_id">{{list?.workerName}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<div size="12" style="margin-top: 18px;" class="col form_container">
+					<ion-label class="star_not">Upload Document</ion-label>
+					<div class="checkbox_lable">
+						<span class="radio1">
+							<input type="radio" id="Yes" (click)="changeDocument('Yes')" [checked]="documentChek=='Yes'" name="document" value="Yes">
+							<label style="margin-left: 4px;" for="Yes">Yes</label>
+						</span>
+						<span class="radio2">	
+							<input type="radio" id="No" (click)="changeDocument('No')" [checked]="documentChek=='No'" name="document" value="No">
+							<label style="margin-left: 4px;" for="No">No</label>
+						</span>
+					</div>
+				</div>
+				<div  class="main_container" *ngIf="document_container">
+					<div class="container">
+						<h3>Insurance</h3>
+						<div class="document_upload">
+							<div>
+								<label for="browse"><span><i class="fa fa-upload" aria-hidden="true"></i></span> <ion-button class="IonBtn" (click)="insuranceFileUploade()">Upload</ion-button></label>
+								<input type="file" id="insuranceBrowse" name='insuranceBrowse' (click)="insuranceFileUploade($event.target.files)" />
+								<span *ngIf="insuranceFileSet=='' || insuranceFileSet==undefined || insuranceFileSet==null" style="font-size: 13px;color: #9a9999;"> jpg, pdf, word file</span>
+								<span *ngIf="insuranceFileSet!='' || insuranceFileSet!=undefined || insuranceFileSet!=null" style="font-size: 13px;color: #9a9999;"> {{insuranceFileSet}}</span>
+							</div>
+						</div>
+						<div class="chek_box">
+							<div class="date_select">
+								<ion-label>Exp. Date </ion-label>
+								<div>
+									<ion-input style="text-transform: uppercase;" class="date_clnd" id="edited1" formControlName="InsuranceTT" value="" [(ngModel)]="InsuranceTT" type="date" (ionChange)="InsuranceTTExp($event.target.value)" ></ion-input>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<h3>Registration Certificate</h3>
+						<div class="document_upload">
+							<div>
+								<label for="browse"><span><i class="fa fa-upload" aria-hidden="true"></i></span><ion-button class="IonBtn" (click)="RegistrationFileUploade()">Upload</ion-button></label>
+								<input type="file" value="" id="browse"/>
+								<span *ngIf="RegistrationFileSet=='' || RegistrationFileSet==undefined || RegistrationFileSet==null" style="font-size: 13px;color: #9a9999;"> jpg, pdf, word file</span>
+								<span *ngIf="RegistrationFileSet!='' || RegistrationFileSet!=undefined || RegistrationFileSet!=null" style="font-size: 13px;color: #9a9999;"> {{RegistrationFileSet}}</span>
+							</div>
+						</div>
+						<div class="chek_box">
+							<div class="date_select">
+								<ion-label>Exp. Date</ion-label>
+								<div>
+									<ion-input style="text-transform: uppercase;" class="date_clnd" id="edited4" formControlName="RegistrationTT" value="" [(ngModel)]="RegistrationTT" type="date" (ionChange)="RegistrationTTExp($event.target.value)" ></ion-input>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<h3>Pollution</h3>
+						<div class="document_upload">
+							<div>
+								<label for="browse"><span><i class="fa fa-upload" aria-hidden="true"></i></span><ion-button class="IonBtn" (click)="PollutonFileUploade()">Upload</ion-button></label>
+								<input type="file" value="" id="browse"/>
+								<span *ngIf="PollutonFileSet=='' || PollutonFileSet==undefined || PollutonFileSet==null" style="font-size: 13px;color: #9a9999;"> jpg, pdf, word file</span>
+								<span *ngIf="PollutonFileSet!='' || PollutonFileSet!=undefined || PollutonFileSet!=null" style="font-size: 13px;color: #9a9999;"> {{PollutonFileSet}}</span>
+							</div>
+						</div>
+						<div class="chek_box">
+							<div class="date_select">
+								<ion-label>Exp. Date</ion-label>
+								<div>
+									<ion-input style="text-transform: uppercase;" class="date_clnd" id="edited7" formControlName="PollutonTT" value="" [(ngModel)]="PollutonTT" type="date" (ionChange)="PollutonTTExp($event.target.value)" ></ion-input>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="container">
+						<h3>Driving License</h3>
+						<div class="document_upload">
+							<div>
+								<label for="browse"><span><i class="fa fa-upload" aria-hidden="true"></i></span><ion-button class="IonBtn" (click)="DrivingFileUploade()">Upload</ion-button></label>
+								<input type="file" value="" id="browse"/>
+								<span *ngIf="DrivingFileSet=='' || DrivingFileSet==undefined || DrivingFileSet==null" style="font-size: 13px;color: #9a9999;"> jpg, pdf, word file</span>
+								<span *ngIf="DrivingFileSet!='' || DrivingFileSet!=undefined || DrivingFileSet!=null" style="font-size: 13px;color: #9a9999;"> {{DrivingFileSet}}</span>
+							</div>
+						</div>
+						<div class="chek_box">
+							<div class="date_select">
+								<ion-label>Exp. Date</ion-label>
+								<div>
+									<ion-input style="text-transform: uppercase;" class="date_clnd" id="edited10" formControlName="DrivingTT" value="" [(ngModel)]="DrivingTT" type="date" (ionChange)="DrivingTTExp($event.target.value)" ></ion-input>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sign_in_button">
+					<button shape="round" type="submit" [disabled]="add_car.invalid">Save</button>
+				</div>
+			</form>
+            <form action="" [formGroup]="add_car_guest" (ngSubmit)="addCarGuest()"  *ngIf='regular_customer!="1"'>
+                <span class="star_not">Customer : <span style="text-transform: capitalize;color: #454545;">{{customer_name}}</span></span>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Registration No.</ion-label>
+					<ion-input style="text-transform: uppercase;" no-padding type="text" required clearInput [(ngModel)]="carDataGuest.register_no" formControlName="register_no" [class.error1]="!add_car_guest.controls.register_no.valid && add_car_guest.controls.register_no.dirty"></ion-input>			
+				</ion-item>
+				<div class="error_cls" *ngIf="( add_car_guest.get('register_no').hasError('required') ) && add_car_guest.get('register_no').touched">
+					<div class="error" *ngIf="add_car_guest.get('register_no').hasError('required') && add_car_guest.get('register_no').touched">
+						Car Registration no cannot be blank.
+					</div>
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Company </ion-label>
+					<ion-select [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCar(carDataGuest.company)" interface="action" required formControlName="company" [(ngModel)]="carDataGuest.company" [class.error1]="!add_car_guest.controls.company.valid && add_car_guest.controls.company.dirty" >
+					<ion-select-option *ngFor="let list of car_company_list" [value]="list.company">{{list?.company}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<div *ngIf="Model_hide">
+					<ion-item size="12" class="col form_container" no-padding>
+						<ion-label position="floating">Car Model</ion-label>
+						<ion-select [interfaceOptions]="customActionSheetOptions" (click)="modelList()" (ionChange)="selectModel($event.target.value)" interface="action" required formControlName="model" [(ngModel)]="carDataGuest.model" [class.error1]="!add_car_guest.controls.model.valid && add_car_guest.controls.model.dirty">
+						<ion-select-option *ngFor="let list of car_model_list" [value]="list.id">{{list?.model}}</ion-select-option>
+						</ion-select>
+					</ion-item>
+				</div>
+				<ion-item size="12" class="col form_container" no-padding >
+					<ion-label style="opacity: 1;" position="floating">Car Type</ion-label>
+					<ion-select  *ngIf="disable_car_type" [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCarType(carDataGuest.model)" interface="action" required formControlName="car_type" [(ngModel)]="carDataGuest.car_type" [class.error1]="!add_car_guest.controls.car_type.valid && add_car_guest.controls.car_type.dirty">
+						<ion-select-option *ngFor="let list of car_type_list" [value]="list.id">{{list?.car_type_name}}</ion-select-option>
+					</ion-select>
+					<ion-select disabled *ngIf="!disable_car_type" [interfaceOptions]="customActionSheetOptions" (ionChange)="selectCarType(carDataGuest.model)" interface="action" required formControlName="car_type" [(ngModel)]="carDataGuest.car_type" [class.error1]="!add_car_guest.controls.car_type.valid && add_car_guest.controls.car_type.dirty">
+						<ion-select-option *ngFor="let list of car_type_list" [value]="list.id">{{list?.car_type_name}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Services</ion-label>
+					<ion-select multiple="true" [disabled]="edit=='edit'" [interfaceOptions]="customActionSheetOptions" (ionChange)="serviceGuest()" interface="action" required formControlName="service_guest" [(ngModel)]="carDataGuest.service_guest" [class.error1]="!add_car_guest.controls.service_guest.valid && add_car_guest.controls.service_guest.dirty">
+						<ion-select-option *ngFor="let list of service_guest_list" [value]="list.id" [selected]='carDataGuest.service_guest.includes(list.service_name)'>{{list?.service_name}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<div class="error error_cls" *ngIf="add_car_guest.get('service_guest').hasError('required') && add_car_guest.get('service_guest').touched">
+					Select Service Plan.
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Service Cost</ion-label>
+					<ion-input [disabled]="edit=='edit'" no-padding   type="tel" required clearInput [(ngModel)]="carDataGuest.service_cost" formControlName="service_cost" [class.error1]="!add_car_guest.controls.service_cost.valid && add_car_guest.controls.service_cost.dirty"></ion-input>			
+				</ion-item>
+				<div class="error_cls" *ngIf="( add_car_guest.get('service_cost').hasError('required') ) && add_car_guest.get('service_cost').touched">
+					<div class="error error_cls" *ngIf="add_car_guest.get('service_cost').hasError('required') && add_car_guest.get('service_cost').touched">
+						Service cost cannot be blank.
+					</div>
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label position="floating">Start Service Date</ion-label>
+					<ion-input style="text-transform: uppercase;" formControlName="service_start_date" value="" [disabled]="edit=='edit'" required clearInput [(ngModel)]="carDataGuest.service_start_date" type="date" [class.error1]="!add_car_guest.controls.service_start_date.valid && add_car_guest.controls.service_start_date.dirty"></ion-input>
+				</ion-item>
+				<div class="error error_cls" *ngIf="add_car_guest.get('service_start_date').hasError('required') && add_car_guest.get('service_start_date').touched">
+					Select Service Date.
+				</div>
+				<ion-item size="12" class="col form_container" no-padding>
+					<ion-label class="star_not" position="floating">Select Worker</ion-label>
+					<ion-select [interfaceOptions]="customActionSheetOptions"  interface="action" formControlName="select_worker" [(ngModel)]="carDataGuest.select_worker">
+					<ion-select-option *ngFor="let list of worker_list" [value]="list.worker_id">{{list?.workerName}}</ion-select-option>
+					</ion-select>
+				</ion-item>
+				<div class="sign_in_button">
+					<button shape="round" type="submit" [disabled]="add_car_guest.invalid" >Save</button>
+				</div>
+            </form>
+        </ion-row>
+    </ion-grid>
+</ion-content>

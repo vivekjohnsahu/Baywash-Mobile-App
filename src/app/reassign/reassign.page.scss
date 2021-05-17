@@ -1,0 +1,123 @@
+.search_icon_container img {
+    width: 18px;
+    position: relative;
+    left: -5px;
+}
+a.search_icon {
+    padding: 0px 6px;
+}
+#cart-badge {
+    height: 16px;
+    position: absolute;
+    top: -2px;
+    right: 3px;
+    width: 16px;
+    font-size: 10px;
+    padding: 4px 6px;
+    line-height: 9px;
+    border-radius: 50%;
+    background: #39b449;
+    font-size: 10px;
+}
+ion-title{
+    text-align: left;
+}
+
+.form_container{
+    position: relative;
+    margin: 5px 10px 0 10px;
+    --padding-start: 0;
+    --padding-end: 0;
+}
+
+
+
+
+// .form_container > ion-label::after{
+//     content:"*";
+//     color: red;
+//     margin-left: 3px; 
+// }
+// .form_container > .star_not::after{
+//     content:""!important;
+//     color: red;
+//     margin-left: 3px; 
+// }
+.form_container ion-input , .form_container ion-textarea{
+    width: 100%;
+    margin: 0 0 0 auto;
+    font-size:14px;
+    --padding-top: 8px;
+    --padding-bottom: 5px;
+}
+.form_container ion-item{
+    width: 100%;
+    margin: 0 auto;
+    --min-height: 36px;
+}
+.radiobtn1{
+    display: inline-block;
+    margin: 18px 30px 0px 0px;
+}
+.radiobtn1>span>input{
+    margin-right: 6px;
+    vertical-align: middle;
+}
+.radiobtn1>span>span{
+    vertical-align: middle;
+}
+.form_container ion-item > ion-datetime{
+    font-size: 14px;
+    --padding-start: 0px !important;
+}
+.form_container ion-item > ion-datetime{
+    font-size: 14px;
+    --padding-start: 0px !important;
+}
+.form_container ion-item > ion-select{
+    min-width: 100%;
+    --padding-start: 0px;
+    font-size: 14px;
+    --padding-bottom: 0px;
+}
+.form_container ion-button{
+    font-weight: 300;
+    width: 80%;
+    box-shadow: 0px 4px 8px 1px #fed19c;
+    border-radius: 30px;
+    --background: #fd8900;
+    --background-activated: #fd8900;
+}
+ion-input.file_input .native-input.sc-ion-input-md{
+    opacity:0;
+}
+.form_container > .file_input .abs_upload{
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+}
+.form_container > .file_input .abs_upload > img{
+    width:22px;
+}
+.sign_in_button > button{
+    font-weight: 300;
+    width: 40%;
+    margin: 50px 0;
+    padding: 15px;
+    color:#fff;
+    border-radius: 30px;
+    background-image: linear-gradient(90deg, #39b449 0%, #31cbed 100%);
+    background-image: -moz-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    background-image: -ms-linear-gradient( 0deg, rgb(49,203,237) 0%, rgb(57,180,73) 100%);
+    box-shadow: 0px 9px 18.27px 2.73px rgba(0, 0, 0, 0.19);
+}
+.sign_in_button > button:focus{
+    outline:none;
+}
+.sign_in_button{
+    text-align: center;
+}
+.sign_in_button > button[disabled]{
+    background-image: linear-gradient(90deg, rgba(49, 203, 237, 0.48) 0%, rgba(57, 180, 73, 0.48) 100%);
+}

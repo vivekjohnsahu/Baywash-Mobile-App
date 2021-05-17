@@ -1,0 +1,91 @@
+<ion-header>
+	<ion-toolbar mode="ios">
+		<ion-buttons >
+			<ion-menu-button (click)="manu()"><img style="max-width: 58%;" src="assets/images/icon/menu.png" alt="menu icon"/></ion-menu-button>
+		</ion-buttons>
+		<ion-title >
+			<span style="float: left;margin-left: 8px;font-weight: 500;letter-spacing: 0.1px;">Home</span>
+			<span style="position:absolute;left:50%;font-weight: 500;letter-spacing: 0.1px;transform:translateX(-50%)">{{user_details?.society_name}}</span>
+		</ion-title>
+		<ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+			<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+			<ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content pullingIcon="arrow-dropdown" style="margin:0px 0px 0px 0px;" pullingText="Pull to refresh" refreshingSpinner="crescent"></ion-refresher-content>
+	</ion-refresher>
+	<ion-slides [options]="slideOpts" loop="true" autoplay="1" speed="6000" *ngIf="hide_banner">
+		<ion-slide *ngFor="let banner of slide_banner">
+			<div class="homepage_img">
+				<a><img src={{banner.image}} title=""></a>
+			</div>
+		</ion-slide>
+	</ion-slides>
+	<ion-grid>
+		<ion-row>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="customerManagement()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/customer.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Customer Management</p>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="workerManagement()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/1.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Worker Management</p>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="scheduleManagement()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/3.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Schedule Management</p>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="guestScheduleManagement()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/2.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Guest Schedule Management</p>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="ticketManagement()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/4.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Ticket Management</p>
+					</div>
+				</div>
+			</ion-col>
+			<ion-col size-xs="6" size-sm="4" size-md="3" (click)="workerload()">
+				<div class="management_tab text-center">
+					<div class="tab_img">
+						<img src="assets/images/sidemenu/icon/worker-load-icon.png" title="" alt="" />
+					</div>
+					<div class="tab_text">
+						<p>Worker Load</p>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,59 @@
+
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+		<ion-back-button></ion-back-button>
+	  </ion-buttons>
+    <ion-title>
+	  Customer Listing
+	  <span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+    </ion-title>
+    <ion-buttons slot="end" class="search_icon_container" >
+	  <a style="color: white;font-size: 17px;margin-right: 7px;" class="search_icon" (click)="presentAlertPrompt()"><i class="fa fa-filter" aria-hidden="true"></i></a>
+      <a class="search_icon" (click)="presentModal()"><img src="assets/images/sidemenu/icon/notification.png"></a>
+      <ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+          	<ion-col class="main_container input_container" size="12">
+				<!-- <ion-searchbar mode="ios" showCancelButton="never" placeholder="Search name and Flat no" (ionChange)="searchbarValue($event.detail.value)" type="search"></ion-searchbar> -->
+			    <input class="search_fied" type="text" placeholder="Search Name And Flat No" [(ngModel)]="searchText" (ngModelChange)="searchbarValue($event)">
+				<span class="icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+			</ion-col>
+			<ion-col class="no_data" [hidden]="customer_details_hide!=0" size="12">
+					<p>Customer Or Flat No. Not Found</p>
+			</ion-col>
+          	<ion-col [hidden]="customer_details_hide==0" class="main_container_text" size="12" *ngFor="let customer of customers">
+				<div class="left_line" (click)="customer_details(customer.id,customer.customer_type)">
+					<div class="new_add">	
+						<strong>Customer : </strong><span> {{customer.first_name}} {{customer.last_name}}</span>
+					</div>
+					<div class="text_container">
+						<div>
+							<strong>Total Active Car: </strong><span *ngIf="customer.count_of_car_regular!=0">{{customer.count_of_car_regular}}</span><span *ngIf="customer.count_of_car_guest!=0">{{customer.count_of_car_guest}}</span><span *ngIf="customer.count_of_car_regular==0 && customer.count_of_car_guest==0">{{customer.count_of_car_regular}}</span>
+						</div>
+						<div>
+							<strong>Flat & Tower : </strong><span> {{customer.flat}}, {{customer.tower}}</span>
+						</div>
+						<div>
+							<strong>Mobile No. : </strong><span> {{customer.mobile | slice:0:7}}***</span>
+						</div>
+					</div>
+					<div class="btn_container">
+						<button (click)="add_car($event,customer.id,customer.first_name,customer.last_name,customer.customer_type)">Add Car</button>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-fab vertical="bottom" horizontal="end"  slot="fixed" (click)="add_customer()">
+	<!-- <ion-fab [hidden]="customer_details_hide==0" vertical="bottom" horizontal="end"  slot="fixed" (click)="add_customer()"> -->
+		<ion-fab-button class="edit_btn_container">
+			<ion-icon name="add" class="edit_button"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+</ion-content>

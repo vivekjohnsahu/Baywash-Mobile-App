@@ -1,0 +1,131 @@
+<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+<ion-header>
+	<ion-toolbar>
+		<!--<div class="back_btn">
+			<span (click)="back()"><img src="assets/images/icon/back-button.png"></span>
+		  </div>-->
+		<ion-buttons slot="start"><span style="text-align:center;width:48px;" (click)="back()"><img style="width:16px;" src="assets/images/icon/back-button.png"></span></ion-buttons>
+		<ion-title>Customer Details
+			<span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details_name?.society_name}}</span>
+		</ion-title>
+		<ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+			<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+			<ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-grid>
+        <ion-row>
+			<ion-col class="main_container" size="12" *ngFor="let customer of customers">
+				<div class="container" padding style="border: none;">
+					<div>	
+						<strong>Name : </strong><span> {{customer.first_name}} {{customer.last_name}}</span>
+					</div>
+					<div>	
+						<strong>Flat & Tower : </strong><span> {{customer.flat}}, {{customer.tower}}</span>
+					</div>
+					<div>	
+						<strong>Mobile No. : </strong><span> {{customer.mobile | slice:0:7}}***</span>
+					</div>
+					<div>	
+						<strong>Email Address : </strong><span style="text-transform: none;"> {{customer.email}}</span>
+					</div>
+					<div>	
+						<strong>Billing Address : </strong><span> {{customer.billing_address}}</span>
+					</div>
+					<div>	
+						<strong>Permanent Address : </strong><span> {{customer.address}}</span>
+					</div>
+					<div>	
+						<strong>Customer Type : </strong><span *ngIf="customer.customer_type == 1"> Guest User</span><span *ngIf="customer.customer_type == 2"> Regular User</span>
+					</div>
+					<ion-fab vertical="bottom" horizontal="end"  slot="fixed" (click)="edit_customer(customer.customer_type,customer.id)">
+						<ion-fab-button class="edit_btn_container">
+							<i class="fa fa-pencil" aria-hidden="true" style="font-size: 16px;"></i>
+						</ion-fab-button>
+					</ion-fab>
+				</div>
+			</ion-col>
+		    <ion-col class="main_container" size="12" *ngFor="let cars of car_thumbnail">
+				<div class="container" padding (click)="car_view(cars.id)">	
+					<div>
+						<strong>Car Details : </strong><span> {{cars.company_name}}, {{cars.CAR_MODEL_NAME}}</span>
+					</div>
+					<div>
+						<strong>Registration No : </strong><span style="text-transform: uppercase;">{{cars.registration_no}}</span>
+					</div>
+					<div>
+						<strong>Worker Name : </strong>
+						<span *ngIf="cars.worker_name!=null"> {{cars.worker_name}}</span>
+						<span *ngIf="cars.worker_name==null"> &mdash; &mdash;</span>
+					</div>
+					<div *ngIf="customer_type!=1">
+						<strong>Weekly/Monthly Service Date : </strong>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==1"> Mon<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==2"> Tue<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==3"> Wed<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==4"> Thu<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==5"> Fri<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==6"> Sat<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[0]==7"> Sun<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==1"> Mon<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==2"> Tue<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==3"> Wed<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==4"> Thu<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==5"> Fri<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==6"> Sat<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[1]==7"> Sun<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]!=undefined">,</span> </span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[2]==7"> Sun</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[3]==7"> Sun</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[4]==7"> Sun</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[5]==7"> Sun</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[6]==7"> Sun</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==1"> Mon</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==2"> Tue</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==3"> Wed</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==4"> Thu</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==5"> Fri</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==6"> Sat</span>
+							<span *ngIf="cars.number_of_time_provide_service_in_week.split(',')[7]==7"> Sun</span>
+						<span *ngIf="cars?.number_of_time_provide_service_in_month!=null"> / {{cars.number_of_time_provide_service_in_month}}</span>
+					</div>
+					<div *ngIf="customer_type==1">
+						<strong>Service Start Date :</strong>
+						<span> {{cars.service_start_date | date: "dd-MM-yyyy"}}</span>
+					</div>
+				</div>
+			</ion-col>  
+		</ion-row>
+	</ion-grid> 
+</ion-content>

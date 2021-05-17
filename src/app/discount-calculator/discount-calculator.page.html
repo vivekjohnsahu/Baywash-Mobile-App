@@ -1,0 +1,84 @@
+<ion-header>
+	<ion-toolbar>
+       <ion-title>Discount Calculator
+			<span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details_name?.society_name}}</span>
+		</ion-title>
+		<ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+			<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+			<ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+  <ion-content>
+    <div class="main_discount">
+		<form>
+			<div class="dis_block" style="background: linear-gradient(to bottom, #00f14f, #05728a);" [hidden]="previous_package_amount==0">
+				<div class="upper_wraper">
+					<div class="name">
+						Previous Total Amount (in Rs.)
+					</div>
+					<div class="value">
+						<input style="background: #fff;width: 90%;display: inline-block;" disabled type="text" value={{previous_package_amount}} class="no-border"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="dis_block" style="background: linear-gradient(to bottom, #00f14f, #05728a);" [hidden]="input_amount==null">
+				<div class="upper_wraper">
+					<div class="name">
+						Previous Input Amount (in Rs.)
+					</div>
+					<div class="value">
+						<input style="background: #fff;width: 90%;display: inline-block;" type="text" disabled value={{input_amount}} class="no-border"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="dis_block" style="background: linear-gradient(to bottom, #00f14f, #05728a);" [hidden]="previous_discount=='0'">
+				<div class="upper_wraper">
+					<div class="name">
+						Previous Discount (in Rs.)
+					</div>
+					<div class="value">
+						<input style="background: #fff;width: 90%;display: inline-block;" type="text" disabled value={{previous_discount}} class="no-border"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="dis_block">
+				<div class="upper_wraper">
+					<div class="name">
+						Total Package Amount (in Rs.)
+					</div>
+					<div class="value">
+						<input style="background: #fff;width: 90%;display: inline-block;" disabled type="text" value={{total_package_amount}} class="no-border"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="dis_block">
+				<div class="upper_wraper">
+					<div class="name">
+						Service Amount (in Rs.)
+					</div>
+					<div class="value">
+						<input type="tel" style="width: 90%;display: inline-block;" (ngModelChange)="serviceAmountChek()" [(ngModel)]="service_amount" name="service_amount"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;padding-left: 4px;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="error_cls" *ngIf="service_amount_error">
+				<span>Service amount cannot be greater than Package Amount.</span>
+			</div>
+			<div class="dis_block">
+				<div class="upper_wraper">
+					<div class="name">
+						Discount (in Rs.)
+					</div>
+					<div class="value">
+						<input style="background: #fff;width: 90%;display: inline-block;" type="text" disabled value={{discount}} class="no-border"><span style="font-size: 18px;display: inline-block;width: 10%;vertical-align: middle;color: #ccc;">/</span>
+					</div>
+				</div>
+			</div>
+			<div class="btn-group">
+				<button class="btn-submit" (click)="submit()">Submit</button>
+				<button class="btn-cancel" (click)="back_to_page()">Cancel</button>
+			</div>
+		</form>
+    </div>  
+</ion-content>

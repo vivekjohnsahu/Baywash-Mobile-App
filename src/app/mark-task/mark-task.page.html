@@ -1,0 +1,85 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<span style="text-align:center;width:48px;" (click)="back()">
+				<img style="width:16px;" src="assets/images/icon/back-button.png">
+			</span>
+		</ion-buttons>
+	  <ion-title>
+		Active Cars
+		<span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+	  </ion-title>
+	  <ion-buttons slot="end" class="search_icon_container" (click)="presentModal()">
+		<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png"></a>
+		<ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+	  </ion-buttons>
+	</ion-toolbar>
+  </ion-header>
+  <ion-content>
+	<ion-grid>
+	<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+	  <ion-row [hidden]="page_hide==0 || page_hide==2">
+		<ion-col>
+			<div class="header">
+				<strong>Worker Name : </strong><span>{{workerName}}</span>
+			</div>
+		</ion-col>
+		<ion-col class="main_container_text" size="12" *ngFor="let car of active_car_list; let i = index">
+			<div class="left_line">
+				<div class="new_add">	
+					<strong>Customer Name : </strong><span>{{car.customer_name}}</span>
+					<span style="float: right;margin-top: 1px;" (click)="chek_update(car?.id,car?.customer_type,car?.worker_id,i,$event,car?.car_id)"><input type="checkbox"  id="checkbox_{{car?.id}}" ></span>
+				</div>
+				<div class="text_container">
+					<div>	
+						<strong>Flat and Tower : </strong><span>{{car.flat}}, {{car.tower}}</span>
+					</div>
+					<div>	
+						<strong>Registration No : </strong><span style="text-transform: uppercase;">{{car.registration_no}}</span>
+					</div>
+					<div>
+						<strong>Car Model: </strong><span>{{car.company_name}}, {{car.model}}</span>
+					</div>
+				</div>
+			</div>
+		</ion-col>
+	  </ion-row>
+	</ion-grid>
+	<ion-col class="no_data" [hidden]="page_hide==0 || page_hide==1" size="12">
+		<p>Active Car Not Found.</p>
+	</ion-col>
+	<div class="custom-modal_main" *ngIf="updatePopup">
+		<div class="popup-box">
+			<div class="popup-header">
+				<p>Update Worker</p>
+				<a class="close-icon" (click)="openModelHide()"><ion-icon name="close"></ion-icon></a>
+			</div>
+			<div class="popup-body">
+				<form action="">
+					<div style="margin-bottom: 20px;">
+						<strong>Current Worker: </strong><span style="margin-left: 8px;">{{workerName}}</span>		
+					</div>
+					<div class="mrk_popup">
+						<span>Other Workers:</span>
+						<ion-item>
+							<ion-select okText="ok" placeholder="Other Worker" cancelText="Cancel" (ionChange)="selectNewWorker($event.target.value)">
+								<ion-select-option *ngFor="let worker of worker_list" value={{worker.worker_id}}>{{worker.workerName}}</ion-select-option>
+							</ion-select>
+						</ion-item>
+					</div>
+					<div class="sign_in_button">
+						<button shape="round" type="submit"(click)="submit()">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+  </ion-content>
+  <ion-footer [hidden]="page_hide==0 || page_hide==2">
+	<div style="padding: 20px 0;">
+		<div class="sign_in_button">
+			<button style="margin: 0px 0;" (click)="updateWorker()">Update Worker</button>
+		</div>
+	</div>
+  </ion-footer>
+  

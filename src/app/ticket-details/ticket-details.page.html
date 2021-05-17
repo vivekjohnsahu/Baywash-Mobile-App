@@ -1,0 +1,125 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			<span>Ticket Details </span>
+			<span style="display: block;line-height: 1;font-size: 10px;">Society : {{user_details?.society_name}}</span>
+		</ion-title>
+		<ion-buttons slot="end" class="search_icon_container" >
+			<a class="search_icon"><img src="assets/images/sidemenu/icon/notification.png" (click)="presentModal()"></a>
+			<ion-badge id="cart-badge" *ngIf="noti_count>0">{{noti_count}}</ion-badge>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<ngx-spinner bdOpacity =0.9 size = "small" color = "#31cbed" type = "square-loader" [fullScreen] = "true"></ngx-spinner>
+	<ion-grid>
+        <ion-row>
+			<ion-col class="main_container" size="12" *ngFor="let list of ticket">
+				<div class="container" padding>
+					<div>
+						<strong>Ticket Id : </strong>
+						<span *ngIf="list.ticket_id!=''">{{list.ticket_id}}</span>
+						<span *ngIf="list.ticket_id==''"> &mdash; </span>
+					</div>
+					<div>	
+						<strong>Title : </strong><span style="text-transform: none;"> {{list.ticket_title}}</span>
+					</div>
+					<div>	
+						<strong class="des">Description : </strong>
+						<span *ngIf="list.description!=''" style="text-transform: none;"> {{list.description}}</span>
+						<span *ngIf="list.description==''"> &mdash; </span>
+					</div>
+					<div>	
+						<strong>Priority : </strong>
+						<span *ngIf="list.priority==1">Low</span>
+						<span *ngIf="list.priority==2">Medium</span>
+						<span *ngIf="list.priority==3">High</span>
+						<span *ngIf="list.priority==4">Critical</span>
+						<span *ngIf="list.priority==''"> &mdash; </span>
+					</div>
+					<div *ngIf="list.ticket_type!=2">	
+						<strong>Customer Name : </strong>
+						<span>{{list.CUSTOMER_NAME}}</span>
+						<span *ngIf="list.CUSTOMER_NAME==null"> &mdash; </span>
+					</div>
+					<div *ngIf="list.ticket_type!=2">	
+						<strong>Flat : </strong>
+						<span *ngIf="list.flat!=''">{{list.flat}}</span>
+						<span *ngIf="list.flat==''"> &mdash; </span>
+					</div>
+					<div *ngIf="list.ticket_type!=2">	
+						<strong>Tower : </strong>
+						<span *ngIf="list.tower!=''">{{list.tower}}</span>
+						<span *ngIf="list.tower==''"> &mdash; </span>
+					</div>
+					<div>
+						<strong>Worker : </strong>
+						<span *ngIf="list.worker_name==null"> &mdash; </span>
+						<span *ngIf="list.worker_name!=null">{{list.worker_name}}</span>
+					</div>
+					<div>	
+						<strong>Society : </strong>
+						<span>{{user_details?.society_name}}</span>
+					</div>
+					<div>	
+						<strong>Status : </strong>
+						<span *ngIf="list.status==1" style="color:purple;">Closed</span>
+						<span *ngIf="list.status==2" style="color:green;">Open</span>
+						<span *ngIf="list.status==3" style="color:blue;">In Progress</span>
+						<span *ngIf="list.status==4" style="color:#f79233;">Resolved</span>
+						<span *ngIf="list.status==5" style="color:#f6c342;">On Hold</span>
+						<span *ngIf="list.status==''"> &mdash; </span>
+					</div>
+					<div>
+						<strong>Ticket type : </strong>
+						<span *ngIf="list.ticket_type==1">External</span>
+						<span *ngIf="list.ticket_type==2">Internal</span>
+						<span *ngIf="list.ticket_type==''"> &mdash; </span>
+					</div>
+					<div *ngIf="ticket_comments.length!=0">
+						<strong>Comments : </strong>
+						<div class="comment_box" *ngFor="let comments of ticket_comments;let i = index">
+							<span>{{i+1}}</span>
+							<div><strong>Status </strong>
+								<span *ngIf="comments.status==1" style="color:purple;">Closed</span>
+								<span *ngIf="comments.status==2" style="color:green;">Open</span>
+								<span *ngIf="comments.status==3" style="color:blue;">In Progress</span>
+								<span *ngIf="comments.status==4" style="color:#f79233;">Resolved</span>
+								<span *ngIf="comments.status==5" style="color:#f6c342;">On Hold</span>
+							</div>
+							<div><strong>Date </strong><span>{{comments.updated_date | date: "dd-MM-yyyy HH:mm:ss"}}</span></div>
+							<div><strong>Comment </strong><span style="text-transform: none;">{{comments.comment}}</span></div>
+						</div>
+					</div>
+					<div *ngIf="car_docx?.length>0">	
+						<strong class="preview">Uploaded Document </strong>
+						<div class="document" *ngFor="let docmt of car_docx">
+							<span *ngIf="docmt?.extension=='jpg' || docmt?.extension=='JPG' || docmt?.extension=='jpeg' || docmt?.extension=='png'">
+								<img src={{baseUrlImage}}{{docmt?.attachment}} (click)="openModel(baseUrlImage,docmt?.attachment)" alt="note">
+							</span>
+							<span *ngIf="docmt?.extension=='pdf'">
+								<img src='assets/images/icon/images.jpg' (click)="pdfView(baseUrlImage,docmt?.attachment,docmt?.extension)"alt="note">
+							</span>
+							<span *ngIf="docmt?.extension=='docx' || docmt?.extension=='doc' || docmt?.extension=='document' || docmt?.extension=='plain'">
+								<img src='assets/images/icon/download.png' (click)="pdfView(baseUrlImage,docmt?.attachment,docmt?.extension)"alt="note">
+							</span>
+							<span *ngIf="docmt?.extension=='gif'">
+								<img src='assets/images/icon/2019-GifsInEmail.gif' (click)="openModel(baseUrlImage,docmt?.attachment)" alt="note">
+							</span>
+						</div>
+					</div>
+				</div>
+				<div *ngIf="imageZoom" class="zoom">
+					<span (click)="popupCancel()"><ion-icon name="close"></ion-icon></span>
+					<img src={{imageZoomdata}} alt="note">
+				</div>
+				<div class="edit_button" (click)="chatingPage(list.id)">
+					<i class="fa fa-comments" aria-hidden="true"></i>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

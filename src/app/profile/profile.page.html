@@ -1,0 +1,75 @@
+
+<ion-content>
+  <ion-toolbar>
+		<div class="back_btn">
+      <span routerLink="/home"><img src="assets/images/icon/back-button.png"></span>
+      <span>My Profile</span>
+		</div>
+	  </ion-toolbar>
+  <ion-grid no-padding>
+    <ion-row no-padding>
+      <ion-col no-padding size="12">
+        <div class="profile_img">
+          <div>
+            <ion-avatar>
+              <img *ngIf="userData?.profile_image==''" src="assets/images/sidemenu/download.png"> 
+              <img *ngIf="userData?.profile_image!=''" src="{{image_url}}/{{userData?.profile_image}}"> 
+            </ion-avatar>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col no-padding class="padding_set">
+        <div class="main_container">
+          <div class="profile_bg">
+            <div class="type">
+              <span>Name</span>
+            </div>
+            <div class="value">
+              <span class="em">{{userData?.first_name}} {{userData?.last_name}}</span>
+            </div>
+          </div>
+          <div class="profile_bg">
+            <div class="type">
+              <span>Emp Code</span>
+            </div>
+            <div class="value">
+              <span class="em">{{userData?.employee_code}}</span>
+            </div>
+          </div>
+          <div class="profile_bg">
+            <div class="type">
+              <span>Email</span>
+            </div>
+            <div class="value">
+              <span class="em">{{userData?.email_address}}</span>
+            </div>
+          </div>
+          <div class="profile_bg">
+            <div class="type">
+              <span>City</span>
+            </div>
+            <div class="value">
+              <span class="em">{{userData?.city}}</span>
+            </div>
+          </div>
+          <div class="profile_bg">
+            <div class="type">
+              <span>Society</span>
+            </div>
+            <div class="value">
+              <span class="em">{{user_details?.society_name}}</span>
+            </div>
+          </div>
+          <div class="profile_bg">
+            <div class="type">
+              <span>Phone No.</span>
+            </div>
+            <div class="value">
+              <span class="em">{{userData?.phone}}</span>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> 
